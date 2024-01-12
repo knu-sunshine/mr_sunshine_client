@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>241211711120-9u9upvlddnq4pr1k1vp827ehs8ibe34c.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.241211711120-9u9upvlddnq4pr1k1vp827ehs8ibe34c</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>241211711120-u6hjdtslob7tdca9u57b1g2p8uu6g6t8.apps.googleusercontent.com</string>
+	<key>API_KEY</key>
+	<string>AIzaSyB23mV9vZbr-OFW3tgf1UOP01iXQRq8DYs</string>
+	<key>GCM_SENDER_ID</key>
+	<string>241211711120</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.example.mrSunshineClient.RunnerTests</string>
+	<key>PROJECT_ID</key>
+	<string>mr-sunshine-54e48</string>
+	<key>STORAGE_BUCKET</key>
+	<string>mr-sunshine-54e48.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:241211711120:ios:beea10648f77a05df60215</string>
+</dict>
+</plist>
