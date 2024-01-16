@@ -5,8 +5,8 @@ import 'package:get/get.dart';
 
 import 'package:mr_sunshine_client/bloc/user_view_model.dart';
 import 'package:mr_sunshine_client/firebase_options.dart';
-import 'package:mr_sunshine_client/ui/authPage.dart';
-import 'package:mr_sunshine_client/ui/homePage.dart';
+import 'package:mr_sunshine_client/ui/auth_page.dart';
+import 'package:mr_sunshine_client/ui/home_page.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
