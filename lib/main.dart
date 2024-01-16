@@ -3,9 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
-import 'view/00_authPage/authPage.dart';
-import 'viewModel/userViewModel.dart';
-import 'firebase_options.dart';
+import 'package:mr_sunshine_client/bloc/user_view_model.dart';
+import 'package:mr_sunshine_client/firebase_options.dart';
+import 'package:mr_sunshine_client/ui/authPage.dart';
+import 'package:mr_sunshine_client/ui/homePage.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -29,15 +30,15 @@ class MyApp extends StatelessWidget {
               fontFamily: "Noto-Sans",
             ),
             debugShowCheckedModeBanner: false,
-            home: AuthPage(),
+            home: const AuthPage(),
             initialBinding: BindingsBuilder(() {
               Get.put(UserController());
             }),
             getPages: [
-              GetPage(name: '/auth', page: () => AuthPage()),
+              GetPage(name: '/auth', page: () => const AuthPage()),
+              GetPage(name: '/home', page: () => const HomePage()),
             ],
           );
-        }
-    );
+        });
   }
 }
