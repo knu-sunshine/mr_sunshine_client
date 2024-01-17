@@ -1,59 +1,71 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get.dart';
+import 'package:mr_sunshine_client/bloc/home_view_model.dart';
 
 import 'package:mr_sunshine_client/constants/colors.dart';
+import 'package:mr_sunshine_client/models/room.dart';
 import 'package:mr_sunshine_client/ui/components/public/on_off_toggle.dart';
 
-enum RoomType {
-  livingRoom,
-  addRoom,
-}
-
-Widget roomListElement({RoomType type = RoomType.livingRoom}) {
-  return Container(
-    width: 332.w,
-    height: 58.h,
-    margin: EdgeInsets.only(bottom: 10.h),
-    padding: EdgeInsets.only(left: 18.w, right: 15.w),
-    decoration: BoxDecoration(
-      borderRadius: BorderRadius.circular(11.r),
-      color: AppColor.surface,
-      border: Border.all(
-        color: AppColor.surfaceStroke,
-        width: 0.3.w,
-      ),
-      boxShadow: [
-        BoxShadow(
-          color: Colors.black.withOpacity(0.08),
-          spreadRadius: 0,
-          blurRadius: 1,
-          offset: const Offset(1, 1), // changes position of shadow
+Widget roomListElement(Room room) {
+  return GestureDetector(
+    onTap: () {
+      if (room.type == RoomType.addRoom) {
+        Get.find<HomePageController>().addRoom();
+      } else {
+        Get.find<HomePageController>().goToRoom(room);
+      }
+    },
+    child: Container(
+      width: 332.w,
+      height: 58.h,
+      margin: EdgeInsets.only(bottom: 10.h),
+      padding: EdgeInsets.only(left: 18.w, right: 15.w),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(11.r),
+        color: AppColor.surface,
+        border: Border.all(
+          color: AppColor.surfaceStroke,
+          width: 0.3.w,
         ),
-      ],
-    ),
-    child: Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        {
-              RoomType.livingRoom:
-                  _icon(url: "assets/icons/room/living_room.png", width: 25.w),
-              RoomType.addRoom: _icon(url: "assets/icons/add.png", width: 15.w),
-            }[type] ??
-            SizedBox(
-              width: 27.w,
-            ),
-        {
-              RoomType.addRoom: _text("Add room"),
-            }[type] ??
-            _text("Living room"),
-        {
-              RoomType.livingRoom: onOffToggle(OnOffStatus.auto),
-            }[type] ??
-            SizedBox(
-              width: 27.w,
-            ),
-      ],
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.08),
+            spreadRadius: 0,
+            blurRadius: 1,
+            offset: const Offset(1, 1), // changes position of shadow
+          ),
+        ],
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          {
+                RoomType.livingRoom: _icon(
+                    url: "assets/icons/room/living_room.png", width: 25.w),
+                RoomType.addRoom:
+                    _icon(url: "assets/icons/add.png", width: 15.w),
+              }[room.type] ??
+              SizedBox(
+                width: 27.w,
+              ),
+          {
+                RoomType.addRoom: _text("Add room"),
+              }[room.type] ??
+              _text("Living room"),
+          {
+                RoomType.livingRoom: onOffToggle(
+                    status: room.status,
+                    onClick: () {
+                      Get.find<HomePageController>()
+                          .toggleRoomLightByRoomId(room.roomId);
+                    }),
+              }[room.type] ??
+              SizedBox(
+                width: 27.w,
+              ),
+        ],
+      ),
     ),
   );
 }

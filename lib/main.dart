@@ -2,6 +2,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:mr_sunshine_client/bloc/home_view_model.dart';
 
 import 'package:mr_sunshine_client/bloc/user_view_model.dart';
 import 'package:mr_sunshine_client/firebase_options.dart';
@@ -36,7 +37,12 @@ class MyApp extends StatelessWidget {
             }),
             getPages: [
               GetPage(name: '/auth', page: () => const AuthPage()),
-              GetPage(name: '/home', page: () => const HomePage()),
+              GetPage(
+                  name: '/home',
+                  page: () => const HomePage(),
+                  binding: BindingsBuilder(() {
+                    Get.put(HomePageController());
+                  })),
             ],
           );
         });
