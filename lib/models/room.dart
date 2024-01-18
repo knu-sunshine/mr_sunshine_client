@@ -1,4 +1,4 @@
-import 'package:mr_sunshine_client/ui/components/public/on_off_toggle.dart';
+import 'package:mr_sunshine_client/ui/components/public/buttons.dart';
 
 enum RoomType {
   livingRoom,

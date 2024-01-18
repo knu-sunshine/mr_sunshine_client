@@ -1,7 +1,7 @@
 import 'package:get/get.dart';
 
 import 'package:mr_sunshine_client/models/room.dart';
-import 'package:mr_sunshine_client/ui/components/public/on_off_toggle.dart';
+import 'package:mr_sunshine_client/ui/components/public/buttons.dart';
 
 class HomePageController extends GetxController {
   RxList<Room> rooms = <Room>[
