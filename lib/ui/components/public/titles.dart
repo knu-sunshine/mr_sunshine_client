@@ -42,3 +42,27 @@ Widget subTitleWithSVGIcon(
     ],
   );
 }
+
+Widget modalTitle(String text) {
+  return Text(
+    text,
+    style: TextStyle(
+      fontSize: 30.sp,
+      fontWeight: FontWeight.w700,
+      color: AppColor.black,
+      height: 1.0,
+    ),
+  );
+}
+
+Widget modalDescription(String text) {
+  return Text(
+    text,
+    style: TextStyle(
+      fontSize: 15.sp,
+      fontWeight: FontWeight.w500,
+      color: AppColor.black,
+      height: 1.0,
+    ),
+  );
+}

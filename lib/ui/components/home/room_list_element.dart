@@ -5,13 +5,16 @@ import 'package:mr_sunshine_client/bloc/home_view_model.dart';
 
 import 'package:mr_sunshine_client/constants/colors.dart';
 import 'package:mr_sunshine_client/models/room.dart';
-import 'package:mr_sunshine_client/ui/components/public/on_off_toggle.dart';
+import 'package:mr_sunshine_client/ui/components/home/add_room_modal.dart';
+import 'package:mr_sunshine_client/ui/components/public/buttons.dart';
 
 Widget roomListElement(Room room) {
   return GestureDetector(
     onTap: () {
       if (room.type == RoomType.addRoom) {
-        Get.find<HomePageController>().addRoom();
+        Get.dialog(const AddRoomModal(),
+            barrierColor: AppColor.black.withOpacity(0.3));
+        // Get.find<HomePageController>().addRoom();
       } else {
         Get.find<HomePageController>().goToRoom(room);
       }
