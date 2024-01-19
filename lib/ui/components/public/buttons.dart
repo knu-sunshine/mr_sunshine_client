@@ -102,16 +102,18 @@ Widget cancelButton() {
 
 //// long bar button
 Widget barButton({
-  required Widget prefix,
-  required String text,
+  Widget? prefix,
   Widget? suffix,
+  required String text,
   Function()? onPressed,
+  required double fontSize,
+  required double height,
 }) {
   return ElevatedButton(
     onPressed: onPressed,
     style: ElevatedButton.styleFrom(
       alignment: Alignment.center,
-      fixedSize: Size(332.w, 58.h),
+      fixedSize: Size(332.w, height),
       backgroundColor: AppColor.surface,
       foregroundColor: AppColor.primary,
       padding: EdgeInsets.symmetric(horizontal: 18.w),
@@ -137,7 +139,7 @@ Widget barButton({
             text,
             style: TextStyle(
               fontWeight: FontWeight.w500,
-              fontSize: 14.sp,
+              fontSize: fontSize,
               color: AppColor.black,
             ),
           ),

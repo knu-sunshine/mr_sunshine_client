@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 
 import 'package:mr_sunshine_client/bloc/user_view_model.dart';
 import 'package:mr_sunshine_client/ui/components/auth/logo.dart';
-import 'package:mr_sunshine_client/ui/components/public/bar_button.dart';
+import 'package:mr_sunshine_client/ui/components/public/buttons.dart';
 
 class AuthPage extends StatelessWidget {
   const AuthPage({super.key});
@@ -20,7 +20,7 @@ class AuthPage extends StatelessWidget {
           SizedBox(height: 234.w),
           barButton(
             prefix: const Image(
-              image: AssetImage('assets/icons/google.png'),
+              image: AssetImage('assets/icons/public/google.png'),
             ),
             text: 'Sign Up With Google',
             onPressed: () {
@@ -31,6 +31,8 @@ class AuthPage extends StatelessWidget {
                       {Get.snackbar('Error', 'Sign In Failed')}
                   });
             },
+            fontSize: 14.sp,
+            height: 58.h,
           ),
         ],
       ),
