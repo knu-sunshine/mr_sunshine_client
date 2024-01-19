@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
 import 'package:mr_sunshine_client/constants/colors.dart';
 
@@ -16,16 +15,20 @@ Widget subTitle(String text) {
   );
 }
 
-Widget subTitleWithSVGIcon(
+Widget subTitleWithIcon(
     {required String text,
     required String iconUrl,
     required double iconWidth}) {
   return Row(
     crossAxisAlignment: CrossAxisAlignment.center,
     children: [
-      SvgPicture.asset(
-        iconUrl,
-        width: iconWidth,
+      Container(
+        width: 17.w,
+        alignment: Alignment.center,
+        child: Image.asset(
+          iconUrl,
+          width: iconWidth,
+        ),
       ),
       SizedBox(
         width: 11.w,
@@ -63,6 +66,34 @@ Widget modalDescription(String text) {
       fontWeight: FontWeight.w500,
       color: AppColor.black,
       height: 1.0,
+    ),
+  );
+}
+
+Widget elementTitle(String text) {
+  return Container(
+    width: 197.w,
+    alignment: Alignment.centerLeft,
+    child: Text(
+      text,
+      style: TextStyle(
+        fontSize: 14.sp,
+        fontWeight: FontWeight.w500,
+        color: AppColor.black,
+        height: 1.0,
+      ),
+    ),
+  );
+}
+
+Widget elementDescription(String text,
+    {FontWeight fontWeight = FontWeight.w500}) {
+  return Text(
+    text,
+    style: TextStyle(
+      fontSize: 10.sp,
+      fontWeight: fontWeight,
+      color: AppColor.black,
     ),
   );
 }
