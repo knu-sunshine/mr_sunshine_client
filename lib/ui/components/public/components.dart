@@ -21,3 +21,15 @@ Widget divier({
     ),
   );
 }
+
+Widget icon({required String url, required double width, double? boxWidth}) {
+  return SizedBox(
+    width: boxWidth ?? width,
+    child: Center(
+      child: Image.asset(
+        url,
+        width: width,
+      ),
+    ),
+  );
+}
