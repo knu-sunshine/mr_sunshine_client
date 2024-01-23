@@ -5,9 +5,9 @@ import 'package:mr_sunshine_client/bloc/home_view_model.dart';
 
 import 'package:mr_sunshine_client/constants/colors.dart';
 import 'package:mr_sunshine_client/models/room.dart';
-import 'package:mr_sunshine_client/ui/components/home/add_room_modal.dart';
 import 'package:mr_sunshine_client/ui/components/public/buttons.dart';
 import 'package:mr_sunshine_client/ui/components/public/components.dart';
+import 'package:mr_sunshine_client/ui/components/public/modal.dart';
 
 Widget roomListElement(Room room) {
   Widget prefixIcon = {
@@ -43,7 +43,12 @@ Widget roomListElement(Room room) {
         suffix: onOffButton,
         onPressed: () {
           if (room.category == RoomCategory.addRoom) {
-            Get.dialog(const AddRoomModal(),
+            Get.dialog(
+                AddRoomModal(
+                  title: "Add Room",
+                  subscription: "Enter the name of the room",
+                  fields: [room.roomName],
+                ),
                 barrierColor: AppColor.black.withOpacity(0.3));
             // Get.find<HomePageController>().addRoom();
           } else {
