@@ -1,12 +1,11 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mr_sunshine_client/constants/colors.dart';
 import 'package:mr_sunshine_client/ui/components/public/buttons.dart';
 import 'package:mr_sunshine_client/ui/components/public/inputs.dart';
-import 'package:mr_sunshine_client/ui/components/public/titles.dart';
+import 'package:mr_sunshine_client/ui/components/public/texts.dart';
 
 class AddRoomModal extends StatefulWidget {
   const AddRoomModal({super.key});

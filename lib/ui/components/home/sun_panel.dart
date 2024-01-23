@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:mr_sunshine_client/ui/components/public/titles.dart';
+import 'package:mr_sunshine_client/ui/components/public/texts.dart';
 
 Widget sunPanel() {
   return Container(
