@@ -128,11 +128,15 @@ Widget barButton({
     child: Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        SizedBox(
-          width: 27.w,
-          height: 27.w,
-          child: prefix,
-        ),
+        ...(prefix != null
+            ? [
+                SizedBox(
+                  width: 27.w,
+                  height: 27.w,
+                  child: prefix,
+                ),
+              ]
+            : []),
         SizedBox(
           width: 194.w,
           child: Text(
