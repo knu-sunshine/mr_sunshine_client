@@ -5,7 +5,7 @@ import 'package:get/get.dart';
 import 'package:mr_sunshine_client/ui/components/home/room_list.dart';
 import 'package:mr_sunshine_client/ui/components/home/sun_panel.dart';
 import 'package:mr_sunshine_client/ui/components/public/app_bar.dart';
-import 'package:mr_sunshine_client/ui/components/public/divider.dart';
+import 'package:mr_sunshine_client/ui/components/public/components.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -13,9 +13,10 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Obx(() => Scaffold(
+          resizeToAvoidBottomInset: false,
           body: Column(
             children: [
-              appBar(),
+              appBar(title: "Andrew's Home"),
               divier(
                 height: 22.h,
                 topIndent: 0.h,
