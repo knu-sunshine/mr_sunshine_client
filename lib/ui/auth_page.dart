@@ -11,6 +11,10 @@ class AuthPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Get.find<UserController>().tryLogIn().then((res) => {
+          if (res) {Get.offNamed('/home')}
+        });
+
     return Scaffold(
         body: Center(
       child: Column(
@@ -24,7 +28,7 @@ class AuthPage extends StatelessWidget {
             ),
             text: 'Sign Up With Google',
             onPressed: () {
-              Get.find<UserController>().trySignIn().then((res) => {
+              Get.find<UserController>().trySignUp().then((res) => {
                     if (res)
                       {Get.offNamed('/home')}
                     else
