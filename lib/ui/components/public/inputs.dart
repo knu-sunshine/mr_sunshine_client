@@ -53,24 +53,3 @@ Widget modalInputBox(void Function(String) onChanged) {
     ),
   );
 }
-
-Widget confirmButton(void Function() onClick) {
-  return ElevatedButton(
-      onPressed: onClick,
-      style: ElevatedButton.styleFrom(
-          padding: EdgeInsets.zero,
-          fixedSize: Size(103.w, 34.h),
-          backgroundColor: AppColor.surface,
-          foregroundColor: AppColor.primary,
-          shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(5.r),
-              side: BorderSide(color: AppColor.surfaceStroke, width: 1.w))),
-      child: Text(
-        "Confirm",
-        style: TextStyle(
-          color: AppColor.black,
-          fontSize: 15.sp,
-          fontWeight: FontWeight.w500,
-        ),
-      ));
-}
