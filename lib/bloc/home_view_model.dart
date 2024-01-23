@@ -3,23 +3,23 @@ import 'package:get/get.dart';
 import 'package:mr_sunshine_client/models/room.dart';
 import 'package:mr_sunshine_client/ui/components/public/buttons.dart';
 
-class HomePageController extends GetxController {
+class HomeController extends GetxController {
   RxList<Room> rooms = <Room>[
     Room(
         roomId: "1",
         roomName: "Living room",
-        status: Status.auto,
-        type: RoomType.livingRoom),
+        status: RoomOnOffStatus.auto,
+        category: RoomCategory.livingRoom),
     Room(
         roomId: "2",
         roomName: "Bedroom",
-        status: Status.auto,
-        type: RoomType.livingRoom),
+        status: RoomOnOffStatus.auto,
+        category: RoomCategory.livingRoom),
     Room(
         roomId: "3",
         roomName: "Kitchen",
-        status: Status.auto,
-        type: RoomType.livingRoom),
+        status: RoomOnOffStatus.auto,
+        category: RoomCategory.livingRoom),
   ].obs;
 
   Future<bool> toggleRoomLightByRoomId(String roomId) async {
@@ -31,14 +31,14 @@ class HomePageController extends GetxController {
     }
 
     switch (selectedRoom.status) {
-      case Status.auto:
-        selectedRoom.status = Status.on;
+      case RoomOnOffStatus.auto:
+        selectedRoom.status = RoomOnOffStatus.on;
         break;
-      case Status.on:
-        selectedRoom.status = Status.off;
+      case RoomOnOffStatus.on:
+        selectedRoom.status = RoomOnOffStatus.off;
         break;
-      case Status.off:
-        selectedRoom.status = Status.on;
+      case RoomOnOffStatus.off:
+        selectedRoom.status = RoomOnOffStatus.on;
         break;
       default:
         break;
