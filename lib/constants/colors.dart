@@ -9,5 +9,7 @@ class AppColor {
   static const Color onSurface = Color(0xFFF4F4F4);
   static const Color surfaceStroke = Color(0xFFF5F5F5);
 
+  static const Color inActive = Color(0xFFECECEC);
+
   static const Color black = Color(0xFF000000);
 }

@@ -15,6 +15,18 @@ Widget subTitle(String text) {
   );
 }
 
+Widget miniSubTitle(String text) {
+  return Text(
+    text,
+    style: TextStyle(
+      fontSize: 10.sp,
+      fontWeight: FontWeight.w500,
+      color: AppColor.black.withOpacity(0.8),
+      height: 1.0,
+    ),
+  );
+}
+
 Widget subTitleWithIcon(
     {required String text,
     required String iconUrl,
