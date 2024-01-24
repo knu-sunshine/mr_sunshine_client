@@ -1,17 +1,12 @@
 import 'dart:async';
 import 'dart:math';
-import 'dart:ui' as ui;
 
 import 'package:flutter/material.dart';
-import 'package:flutter/painting.dart';
-import 'package:flutter/rendering.dart';
-import 'package:flutter/semantics.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:geekyants_flutter_gauges/geekyants_flutter_gauges.dart';
 import 'package:get/get.dart';
-import 'package:mr_sunshine_client/bloc/room_view_model.dart';
 
+import 'package:mr_sunshine_client/bloc/room_view_model.dart';
 import 'package:mr_sunshine_client/constants/colors.dart';
 import 'package:mr_sunshine_client/models/device.dart';
 import 'package:mr_sunshine_client/models/room.dart';
@@ -19,18 +14,18 @@ import 'package:mr_sunshine_client/ui/components/public/buttons.dart';
 import 'package:mr_sunshine_client/ui/components/public/components.dart';
 import 'package:mr_sunshine_client/ui/components/public/texts.dart';
 
-class ControlPanel extends StatefulWidget {
+class DeviceValueControlPanel extends StatefulWidget {
   final String deviceID;
-  const ControlPanel({
-    super.key,
-    required this.deviceID,
-  });
+  final bool onOffVisible;
+  const DeviceValueControlPanel(
+      {super.key, required this.deviceID, this.onOffVisible = true});
 
   @override
-  State<ControlPanel> createState() => _ControlPanelState();
+  State<DeviceValueControlPanel> createState() =>
+      _DeviceValueControlPanelState();
 }
 
-class _ControlPanelState extends State<ControlPanel> {
+class _DeviceValueControlPanelState extends State<DeviceValueControlPanel> {
   double sliderValue = 0;
   Timer? _debounce;
 
@@ -101,6 +96,12 @@ class _ControlPanelState extends State<ControlPanel> {
             ),
           ),
           Positioned(
+              width: 228.w,
+              height: 228.w,
+              child: midPanel(
+                  deviceID: widget.deviceID,
+                  onOffVisible: widget.onOffVisible)),
+          Positioned(
             width: 228.w,
             height: 228.w,
             child: radialGauge(
@@ -108,8 +109,6 @@ class _ControlPanelState extends State<ControlPanel> {
               setSliderValue: setSliderValue,
             ),
           ),
-          Positioned(
-              width: 228.w, height: 228.w, child: midPanel(widget.deviceID)),
         ],
       ),
     );
@@ -131,7 +130,7 @@ Widget radialGauge({
         width: 7.5.w,
       ),
     ],
-    valueBar: [],
+    valueBar: const [],
     track: RadialTrack(
       start: 0,
       end: 100,
@@ -144,39 +143,6 @@ Widget radialGauge({
         showSecondaryRulers: false,
         showPrimaryRulers: false,
       ),
-    ),
-  );
-}
-
-Widget midPanel(String deviceID) {
-  RoomOnOffStatus status = Get.find<RoomController>().getDevice(deviceID)!.isOn
-      ? RoomOnOffStatus.on
-      : RoomOnOffStatus.off;
-  void onClick() {
-    Get.find<RoomController>().toggleDeviceOnOff(deviceID);
-  }
-
-  String iconUrl = {
-    DeviceCategory.light: "assets/icons/device/light.png",
-    DeviceCategory.curtain: "assets/icons/device/curtain.png",
-    DeviceCategory.addDdevice: "assets/icons/device/add_device.png",
-  }[Get.find<RoomController>().getDevice(deviceID)!.deviceCategory]!;
-
-  return Container(
-    alignment: Alignment.center,
-    child: Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        icon(url: iconUrl, width: 54.w),
-        SizedBox(
-          height: 8.h,
-        ),
-        subTitle(Get.find<RoomController>().getDevice(deviceID)!.name),
-        SizedBox(
-          height: 16.h,
-        ),
-        onOffToggle(status: status, onClick: onClick),
-      ],
     ),
   );
 }
@@ -232,6 +198,44 @@ class ValueBarPainter extends CustomPainter {
 
   @override
   bool shouldRepaint(ValueBarPainter oldDelegate) => false;
+}
+
+Widget midPanel({required String deviceID, required bool onOffVisible}) {
+  RoomOnOffStatus status = Get.find<RoomController>().getDevice(deviceID)!.isOn
+      ? RoomOnOffStatus.on
+      : RoomOnOffStatus.off;
+  void onClick() {
+    Get.find<RoomController>().toggleDeviceOnOff(deviceID);
+  }
+
+  String iconUrl = {
+    DeviceCategory.light: "assets/icons/device/light.png",
+    DeviceCategory.curtain: "assets/icons/device/curtain.png",
+    DeviceCategory.addDdevice: "assets/icons/device/add_device.png",
+  }[Get.find<RoomController>().getDevice(deviceID)!.deviceCategory]!;
+
+  return Container(
+    alignment: Alignment.center,
+    child: Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        icon(url: iconUrl, width: 54.w),
+        SizedBox(
+          height: 8.h,
+        ),
+        subTitle(Get.find<RoomController>().getDevice(deviceID)!.name),
+        SizedBox(
+          height: 16.h,
+        ),
+        onOffVisible
+            ? onOffToggle(status: status, onClick: onClick)
+            : SizedBox(
+                width: 27.w,
+                height: 27.w,
+              ),
+      ],
+    ),
+  );
 }
 
 class BackgroundPainter extends CustomPainter {

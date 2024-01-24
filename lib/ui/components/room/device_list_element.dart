@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:mr_sunshine_client/bloc/room_view_model.dart';
 import 'package:mr_sunshine_client/models/device.dart';
 import 'package:mr_sunshine_client/ui/components/public/buttons.dart';
+import 'package:mr_sunshine_client/ui/components/public/modal.dart';
 import 'package:mr_sunshine_client/ui/components/public/texts.dart';
 
 Widget deviceListElement(
@@ -12,9 +13,19 @@ Widget deviceListElement(
     required bool selected}) {
   return GestureDetector(
     onTap: () {
-      Get.find<RoomController>().toggleDeviceOnOff(device.deviceID);
-      if (setDeviceID != null) {
-        setDeviceID(device.deviceID);
+      if (device.deviceCategory == DeviceCategory.addDdevice) {
+        Get.dialog(
+          const TextInputModal(
+            title: "Add Device",
+            subscription: "Enter the name of the device",
+            fields: ["device Id", "device name"],
+          ),
+        );
+      } else {
+        Get.find<RoomController>().toggleDeviceOnOff(device.deviceID);
+        if (setDeviceID != null) {
+          setDeviceID(device.deviceID);
+        }
       }
     },
     child: Container(

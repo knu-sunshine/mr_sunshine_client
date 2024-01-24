@@ -8,8 +8,8 @@ import 'package:mr_sunshine_client/ui/components/public/buttons.dart';
 import 'package:mr_sunshine_client/ui/components/public/components.dart';
 import 'package:mr_sunshine_client/ui/components/room/auto_toggle.dart';
 import 'package:mr_sunshine_client/ui/components/room/configuration_panel.dart';
-import 'package:mr_sunshine_client/ui/components/room/control_panel.dart';
 import 'package:mr_sunshine_client/ui/components/room/device_list.dart';
+import 'package:mr_sunshine_client/ui/components/room/device_value_control_panel.dart';
 
 class RoomPage extends StatefulWidget {
   const RoomPage({super.key});
@@ -53,13 +53,16 @@ class _RoomPageState extends State<RoomPage> {
                       width: 228.w,
                       height: 228.w,
                     )
-                  : ControlPanel(
+                  : DeviceValueControlPanel(
                       deviceID: selectedDeviceId,
+                      onOffVisible: true,
                     ),
               Container(
                 height: 37.h,
               ),
-              configurationPanel(),
+              selectedDeviceId == ""
+                  ? Container()
+                  : configurationPanel(selectedDeviceId),
             ],
           ),
         ));
