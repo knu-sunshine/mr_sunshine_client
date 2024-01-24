@@ -66,7 +66,7 @@ Widget onOffSwitch(
 }
 
 ////
-Widget confirmButton(void Function() onClick) {
+Widget textButton({required String text, required void Function() onClick}) {
   return ElevatedButton(
       onPressed: onClick,
       style: ElevatedButton.styleFrom(
@@ -78,7 +78,7 @@ Widget confirmButton(void Function() onClick) {
               borderRadius: BorderRadius.circular(5.r),
               side: BorderSide(color: AppColor.surfaceStroke, width: 1.w))),
       child: Text(
-        "Confirm",
+        text,
         style: TextStyle(
           color: AppColor.black,
           fontSize: 15.sp,

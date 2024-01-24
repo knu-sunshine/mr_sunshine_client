@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mr_sunshine_client/constants/colors.dart';
 
-Widget modalInputBox(void Function(String) onChanged) {
+Widget modalInputBox(String hintText, void Function(String) onChanged) {
   return Container(
     alignment: Alignment.center,
     decoration: BoxDecoration(
@@ -34,7 +34,7 @@ Widget modalInputBox(void Function(String) onChanged) {
         errorBorder: InputBorder.none,
         focusedErrorBorder: InputBorder.none,
         contentPadding: EdgeInsets.zero,
-        hintText: "Enter a location",
+        hintText: hintText,
         hintStyle: TextStyle(
           color: AppColor.black.withOpacity(0.5),
           fontSize: 17.sp,
