@@ -34,17 +34,20 @@ class _RoomPageState extends State<RoomPage> {
             children: [
               appBar(title: "Living Room", suffixWidget: cancelButton()),
               divier(
+                width: 332.w,
                 height: 22.h,
                 topIndent: 0.h,
               ),
               autoToggle(),
               divier(
+                width: 332.w,
                 height: 51.h,
                 topIndent: 21.h,
               ),
               deviceList(
                   selectedDeviceId: selectedDeviceId, setDeviceID: setDeviceID),
               divier(
+                width: 332.w,
                 height: 63.h,
                 topIndent: 37.h,
               ),

@@ -26,7 +26,12 @@ Widget configurationPanel(String deviceId) {
           height: 13.h,
         ),
         barButton(
-            text: "Show Info", fontSize: 17.sp, height: 42.h, onPressed: () {}),
+            text: "Show Info",
+            fontSize: 17.sp,
+            height: 42.h,
+            onPressed: () {
+              Get.dialog(DeviceInfoModal(deviceId: deviceId));
+            }),
       ],
     ),
   );

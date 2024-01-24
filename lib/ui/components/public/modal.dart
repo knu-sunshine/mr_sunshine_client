@@ -5,7 +5,10 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:mr_sunshine_client/bloc/room_view_model.dart';
 import 'package:mr_sunshine_client/constants/colors.dart';
+import 'package:mr_sunshine_client/models/device.dart';
+import 'package:mr_sunshine_client/ui/components/public/app_bar.dart';
 import 'package:mr_sunshine_client/ui/components/public/buttons.dart';
+import 'package:mr_sunshine_client/ui/components/public/components.dart';
 import 'package:mr_sunshine_client/ui/components/public/inputs.dart';
 import 'package:mr_sunshine_client/ui/components/public/texts.dart';
 import 'package:mr_sunshine_client/ui/components/room/device_value_control_panel.dart';
@@ -173,6 +176,7 @@ class WakeUpValueModal extends StatelessWidget {
 
 class DeviceInfoModal extends StatelessWidget {
   final String deviceId;
+
   const DeviceInfoModal({
     required this.deviceId,
     super.key,
@@ -180,6 +184,26 @@ class DeviceInfoModal extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Device device = Get.find<RoomController>().getDevice(deviceId)!;
+
+    Widget deviceIcon = {
+          DeviceCategory.light: Align(
+            alignment: Alignment.topCenter,
+            child: Image.asset(
+              "assets/icons/device/light.png",
+              width: 31.w,
+            ),
+          ),
+          DeviceCategory.curtain: Align(
+            alignment: Alignment.center,
+            child: Image.asset(
+              "assets/icons/device/curtain.png",
+              width: 20.w,
+            ),
+          ),
+        }[device.deviceCategory] ??
+        Container();
+
     return BackdropFilter(
       filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
       child: Dialog(
@@ -192,49 +216,53 @@ class DeviceInfoModal extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
+              dialogIconAppBar(icon: deviceIcon, title: device.name),
               SizedBox(
-                width: 265.w,
-                height: 41.h,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    modalTitle(
-                        Get.find<RoomController>().getDevice(deviceId)!.name),
-                    cancelButton(),
-                  ],
-                ),
+                height: 36.h,
               ),
-              Container(
-                width: 265.w,
-                height: 20.h,
-                alignment: Alignment.centerLeft,
-                child: modalDescription("Set amount of Light for waking up"),
-              ),
-              SizedBox(
-                height: 32.h,
-              ),
-              DeviceValueControlPanel(
-                deviceID: deviceId,
-                onOffVisible: false,
-              ),
-              SizedBox(
-                height: 31.h,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  textButton(text: "Test", onClick: () {}),
-                  SizedBox(
-                    width: 22.w,
-                  ),
-                  textButton(text: "Confirm", onClick: () {}),
-                ],
-              )
-              // textButton(() {}),
+              _infoBox(device),
             ],
           ),
         ),
+      ),
+    );
+  }
+
+  Widget _infoBox(Device device) {
+    String category = {
+          DeviceCategory.light: "Light",
+          DeviceCategory.curtain: "Curatin",
+        }[device.deviceCategory] ??
+        "";
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        miniSubTitle("Device Info"),
+        divier(width: 270.w, height: 21.h, topIndent: 11.h),
+        _infoElement(index: "Device Id", value: device.deviceID),
+        divier(width: 270.w, height: 21.h, topIndent: 11.h),
+        _infoElement(index: "Room", value: device.roomName),
+        divier(width: 270.w, height: 21.h, topIndent: 11.h),
+        _infoElement(index: "Category", value: category),
+        divier(width: 270.w, height: 21.h, topIndent: 11.h),
+        _infoElement(index: "Wake Up Degree", value: "${device.wakeUpValue}%"),
+        divier(width: 270.w, height: 21.h, topIndent: 11.h),
+      ],
+    );
+  }
+
+  Widget _infoElement({required String index, required String value}) {
+    return Container(
+      width: 271.w,
+      height: 37.h,
+      alignment: Alignment.center,
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          SizedBox(width: 134.w, child: infoIndexText(index)),
+          SizedBox(width: 137.w, child: infoValueText(value)),
+        ],
       ),
     );
   }

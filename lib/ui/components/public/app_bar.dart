@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+
 import 'package:mr_sunshine_client/constants/colors.dart';
+import 'package:mr_sunshine_client/ui/components/public/buttons.dart';
+import 'package:mr_sunshine_client/ui/components/public/texts.dart';
 
 Widget appBar({required String title, Widget? suffixWidget}) {
   return Container(
@@ -23,6 +27,43 @@ Widget appBar({required String title, Widget? suffixWidget}) {
           ),
         ),
         suffixWidget ?? Container(),
+      ],
+    ),
+  );
+}
+
+Widget dialogIconAppBar({
+  required Widget icon,
+  required String title,
+}) {
+  return SizedBox(
+    width: 274.w,
+    height: 48.h,
+    child: Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Container(
+          width: 48.w,
+          height: 48.w,
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            color: AppColor.surface,
+            border: Border.all(
+              color: AppColor.surfaceStroke,
+              width: 1.w,
+            ),
+            boxShadow: [
+              BoxShadow(
+                color: AppColor.black.withOpacity(0.1),
+                blurRadius: 2,
+                offset: const Offset(0, 2),
+              )
+            ],
+          ),
+          child: icon,
+        ),
+        SizedBox(width: 170.w, child: dialogMiniTitle(title)),
+        cancelButton(),
       ],
     ),
   );

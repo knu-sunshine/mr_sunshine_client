@@ -27,6 +27,42 @@ Widget miniSubTitle(String text) {
   );
 }
 
+Widget dialogMiniTitle(String text) {
+  return Text(
+    text,
+    style: TextStyle(
+      fontSize: 16.sp,
+      fontWeight: FontWeight.w700,
+      color: AppColor.black,
+      height: 1.0,
+    ),
+  );
+}
+
+Widget infoIndexText(String text) {
+  return Text(
+    text,
+    style: TextStyle(
+      fontSize: 12.sp,
+      fontWeight: FontWeight.w500,
+      color: AppColor.black,
+      height: 1.0,
+    ),
+  );
+}
+
+Widget infoValueText(String text) {
+  return Text(
+    text,
+    style: TextStyle(
+      fontSize: 11.sp,
+      fontWeight: FontWeight.w300,
+      color: AppColor.black.withOpacity(0.8),
+      height: 1.0,
+    ),
+  );
+}
+
 Widget subTitleWithIcon(
     {required String text,
     required String iconUrl,
