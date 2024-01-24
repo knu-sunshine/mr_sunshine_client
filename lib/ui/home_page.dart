@@ -18,11 +18,13 @@ class HomePage extends StatelessWidget {
             children: [
               appBar(title: "Andrew's Home"),
               divier(
+                width: 332.w,
                 height: 22.h,
                 topIndent: 0.h,
               ),
               sunPanel(),
               divier(
+                width: 332.w,
                 height: 65.h,
                 topIndent: 36.h,
               ),
