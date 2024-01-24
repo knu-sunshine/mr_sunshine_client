@@ -44,7 +44,7 @@ Widget roomListElement(Room room) {
         onPressed: () {
           if (room.category == RoomCategory.addRoom) {
             Get.dialog(
-                AddRoomModal(
+                TextInputModal(
                   title: "Add Room",
                   subscription: "Enter the name of the room",
                   fields: [room.roomName],
