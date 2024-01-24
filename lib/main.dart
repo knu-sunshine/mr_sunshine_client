@@ -3,11 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:mr_sunshine_client/bloc/home_view_model.dart';
+import 'package:mr_sunshine_client/bloc/room_view_model.dart';
 
 import 'package:mr_sunshine_client/bloc/user_view_model.dart';
 import 'package:mr_sunshine_client/firebase_options.dart';
 import 'package:mr_sunshine_client/ui/auth_page.dart';
 import 'package:mr_sunshine_client/ui/home_page.dart';
+import 'package:mr_sunshine_client/ui/room_page.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -31,7 +33,7 @@ class MyApp extends StatelessWidget {
               fontFamily: "Noto-Sans",
             ),
             debugShowCheckedModeBanner: false,
-            home: const AuthPage(),
+            initialRoute: "/room",
             initialBinding: BindingsBuilder(() {
               Get.put(UserController());
             }),
@@ -41,7 +43,13 @@ class MyApp extends StatelessWidget {
                   name: '/home',
                   page: () => const HomePage(),
                   binding: BindingsBuilder(() {
-                    Get.put(HomePageController());
+                    Get.put(HomeController());
+                  })),
+              GetPage(
+                  name: '/room',
+                  page: () => const RoomPage(),
+                  binding: BindingsBuilder(() {
+                    Get.put(RoomController());
                   })),
             ],
           );
