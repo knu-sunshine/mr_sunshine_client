@@ -34,13 +34,9 @@ Widget deviceList({
                 }).toList() +
                 [
                   deviceListElement(
-                    device: Device(
-                      deviceCategory: DeviceCategory.addDdevice,
-                      deviceID: "add",
-                      name: "Add Device",
-                      isOn: false,
-                      deviceValue: 0,
-                      wakeUpValue: 0,
+                    device: Device.deviceAdd(
+                      roomId: Get.find<RoomController>().room.value.roomId,
+                      roomName: Get.find<RoomController>().room.value.roomName,
                     ),
                     selected: false,
                   ),
