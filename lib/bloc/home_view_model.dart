@@ -1,26 +1,10 @@
 import 'package:get/get.dart';
 
 import 'package:mr_sunshine_client/models/room.dart';
-import 'package:mr_sunshine_client/ui/components/public/buttons.dart';
+import 'package:mr_sunshine_client/repository/room_repository.dart';
 
 class HomeController extends GetxController {
-  RxList<Room> rooms = <Room>[
-    Room(
-        roomId: "1",
-        roomName: "Living room",
-        status: RoomOnOffStatus.auto,
-        category: RoomCategory.livingRoom),
-    Room(
-        roomId: "2",
-        roomName: "Bedroom",
-        status: RoomOnOffStatus.auto,
-        category: RoomCategory.livingRoom),
-    Room(
-        roomId: "3",
-        roomName: "Kitchen",
-        status: RoomOnOffStatus.auto,
-        category: RoomCategory.livingRoom),
-  ].obs;
+  RxList<Room> rooms = <Room>[].obs;
 
   Future<bool> toggleRoomLightByRoomId(String roomId) async {
     Room? selectedRoom =
@@ -49,11 +33,24 @@ class HomeController extends GetxController {
     return true;
   }
 
-  Future<bool> addRoom() async {
-    print("add Room");
+  Future<bool> getRoomList() async {
+    final List<Room>? roomList = await RoomRepository.getRoomList();
+    if (roomList == null) {
+      return false;
+    }
+    rooms.value = roomList;
+    rooms.refresh();
+    return true;
+  }
+
+  Future<bool> addRoom(String roomName) async {
+    final Room? room = await RoomRepository.addRoom(roomName: roomName);
+    if (room == null) {
+      return false;
+    }
+    rooms.add(room);
 
     rooms.refresh();
-
     return true;
   }
 
