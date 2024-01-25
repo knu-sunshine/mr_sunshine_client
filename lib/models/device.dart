@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 enum DeviceCategory { light, curtain, addDdevice }
 
 class Device {
@@ -21,14 +23,39 @@ class Device {
       required this.deviceValue,
       required this.wakeUpValue});
 
-  Device.deviceAdd({
-    this.deviceID = "add",
-    this.name = "Add Device",
-    this.deviceCategory = DeviceCategory.addDdevice,
-    required this.roomId,
-    required this.roomName,
-    this.isOn = false,
-    this.deviceValue = 0,
-    this.wakeUpValue = 0,
-  });
+  factory Device.fromJson(Map<String, dynamic> json) => Device(
+        deviceID: json["deviceId"],
+        name: json["deviceName"],
+        deviceCategory: DeviceCategory.light,
+        roomId: json["roomId"],
+        roomName: json["roomName"],
+        isOn: json["isOn"],
+        deviceValue: json["deviceValue"],
+        wakeUpValue: json["wakeUpValue"],
+      );
+
+// {"deviceId":"L002",
+// "currentStatus":0,
+// "ifDeviceOn":false,
+// "wakeUpDegree":0,
+// "category":"Light",
+// "roomId":"r1",
+// "roomName":"chanroom"};
+
+  factory Device.deviceAdd({
+    required String roomId,
+    required String roomName,
+  }) =>
+      Device(
+        deviceID: "add",
+        name: "Add Device",
+        deviceCategory: DeviceCategory.addDdevice,
+        roomId: roomId,
+        roomName: roomName,
+        isOn: false,
+        deviceValue: 0,
+        wakeUpValue: 0,
+      );
 }
+
+Device deviceFromJson(String str) => Device.fromJson(json.decode(str));
