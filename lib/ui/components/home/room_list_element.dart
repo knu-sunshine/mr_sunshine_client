@@ -26,7 +26,7 @@ Widget roomListElement(Room room) {
         RoomCategory.livingRoom: onOffToggle(
             status: room.status,
             onClick: () {
-              Get.find<HomeController>().toggleRoomLightByRoomId(room.roomId);
+              Get.find<HomeController>().toggleRoomLight(room.roomId);
             }),
       }[room.category] ??
       SizedBox(

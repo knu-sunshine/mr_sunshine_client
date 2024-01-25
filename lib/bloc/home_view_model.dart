@@ -6,7 +6,7 @@ import 'package:mr_sunshine_client/repository/room_repository.dart';
 class HomeController extends GetxController {
   RxList<Room> rooms = <Room>[].obs;
 
-  Future<bool> toggleRoomLightByRoomId(String roomId) async {
+  Future<bool> toggleRoomLight(String roomId) async {
     Room? selectedRoom =
         rooms.firstWhereOrNull((element) => element.roomId == roomId);
 
