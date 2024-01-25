@@ -48,9 +48,13 @@ Widget roomListElement(Room room) {
                   title: "Add Room",
                   subscription: "Enter the name of the room",
                   fields: [room.roomName],
+                  onSubmit: (List<String> values) {
+                    Get.find<HomeController>()
+                        .addRoom(values[0])
+                        .then((value) => Get.back());
+                  },
                 ),
                 barrierColor: AppColor.black.withOpacity(0.3));
-            // Get.find<HomePageController>().addRoom();
           } else {
             Get.find<HomeController>().goToRoom(room);
           }

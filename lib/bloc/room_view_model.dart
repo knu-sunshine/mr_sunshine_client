@@ -2,13 +2,15 @@ import 'package:get/get.dart';
 import 'package:mr_sunshine_client/models/device.dart';
 
 import 'package:mr_sunshine_client/models/room.dart';
+import 'package:mr_sunshine_client/repository/device_repository.dart';
 
 class RoomController extends GetxController {
   Rx<Room> room = Room(
-    roomId: "1",
-    roomName: "Living Room",
+    roomId: "r1",
+    roomName: "chan",
     category: RoomCategory.livingRoom,
     status: RoomOnOffStatus.auto,
+    lightValue: 50,
   ).obs;
 
   Future<bool> toggleAuto() async {
@@ -31,28 +33,7 @@ class RoomController extends GetxController {
 
   ////devices
 
-  RxList<Device> deviceList = [
-    Device(
-      deviceCategory: DeviceCategory.light,
-      deviceID: "1",
-      name: "Light1",
-      roomId: "1234",
-      roomName: "1234",
-      isOn: true,
-      deviceValue: 50,
-      wakeUpValue: 0,
-    ),
-    Device(
-      deviceCategory: DeviceCategory.curtain,
-      deviceID: "2",
-      name: "Light1",
-      roomId: "1234",
-      roomName: "1234",
-      isOn: true,
-      deviceValue: 50,
-      wakeUpValue: 0,
-    )
-  ].obs;
+  RxList<Device> deviceList = <Device>[].obs;
 
   Future<bool> toggleDeviceOnOff(String deviceID) async {
     Device? device =
@@ -82,5 +63,22 @@ class RoomController extends GetxController {
   Device? getDevice(String deviceID) {
     return deviceList
         .firstWhereOrNull((element) => element.deviceID == deviceID);
+  }
+
+  Future<bool> addDevice({
+    required String deviceId,
+    required String deviceName,
+  }) async {
+    Device? device = await DeviceRepository.addDevice(
+      deviceId: deviceId,
+      roomId: room.value.roomId,
+      deviceName: deviceName,
+    );
+    if (device == null) {
+      return false;
+    }
+    deviceList.add(device);
+    deviceList.refresh();
+    return true;
   }
 }
