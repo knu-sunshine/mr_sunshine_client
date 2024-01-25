@@ -30,6 +30,7 @@ class _RoomPageState extends State<RoomPage> {
   @override
   Widget build(BuildContext context) {
     return Obx(() => Scaffold(
+          resizeToAvoidBottomInset: false,
           body: Column(
             children: [
               appBar(title: "Living Room", suffixWidget: cancelButton()),

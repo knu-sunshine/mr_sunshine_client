@@ -17,12 +17,14 @@ class TextInputModal extends StatefulWidget {
   final String title;
   final String subscription;
   final List<String> fields;
+  final Function(List<String>) onSubmit;
 
   const TextInputModal({
     super.key,
     required this.title,
     required this.subscription,
     required this.fields,
+    required this.onSubmit,
   });
 
   @override
@@ -96,7 +98,7 @@ class _TextInputModalState extends State<TextInputModal> {
                   textButton(
                       text: "Confirm",
                       onClick: () {
-                        print(values);
+                        widget.onSubmit(values);
                       }),
                 ],
           ),
