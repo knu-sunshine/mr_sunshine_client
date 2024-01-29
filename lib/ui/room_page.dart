@@ -19,7 +19,15 @@ class RoomPage extends StatefulWidget {
 }
 
 class _RoomPageState extends State<RoomPage> {
-  String selectedDeviceId = Get.find<RoomController>().getFirstDeviceID() ?? "";
+  String selectedDeviceId = "";
+
+  @override
+  void initState() {
+    Get.find<RoomController>().initRoom(Get.arguments);
+    Get.find<RoomController>().getDeviceList().then((value) =>
+        {setDeviceID(Get.find<RoomController>().getFirstDeviceID() ?? "")});
+    super.initState();
+  }
 
   void setDeviceID(String deviceID) {
     setState(() {
@@ -60,6 +68,13 @@ class _RoomPageState extends State<RoomPage> {
                   : DeviceValueControlPanel(
                       deviceID: selectedDeviceId,
                       onOffVisible: true,
+                      initValue: Get.find<RoomController>()
+                          .getDevice(selectedDeviceId)!
+                          .deviceValue,
+                      setValue: (val) async {
+                        return await Get.find<RoomController>()
+                            .setDeviceValue(selectedDeviceId, val.toInt());
+                      },
                     ),
               Container(
                 height: 37.h,

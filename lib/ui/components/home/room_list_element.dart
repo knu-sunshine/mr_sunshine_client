@@ -56,7 +56,7 @@ Widget roomListElement(Room room) {
                 ),
                 barrierColor: AppColor.black.withOpacity(0.3));
           } else {
-            Get.find<HomeController>().goToRoom(room);
+            Get.toNamed("/room", arguments: room.roomId);
           }
         }),
   );
