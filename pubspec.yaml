@@ -42,6 +42,7 @@ dependencies:
   http: ^1.2.0
   geekyants_flutter_gauges: ^1.0.3
   flutter_secure_storage: ^9.0.0
+  flutter_dotenv: ^5.1.0
 
 dev_dependencies:
   flutter_test:
@@ -70,6 +71,7 @@ flutter:
     - assets/icons/public/
     - assets/icons/room/
     - assets/icons/device/
+    - .env
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

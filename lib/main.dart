@@ -35,7 +35,7 @@ class MyApp extends StatelessWidget {
               fontFamily: "Noto-Sans",
             ),
             debugShowCheckedModeBanner: false,
-            initialRoute: "/room",
+            initialRoute: "/auth",
             initialBinding: BindingsBuilder(() {
               Get.put(UserController());
             }),
