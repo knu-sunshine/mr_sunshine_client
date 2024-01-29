@@ -31,4 +31,32 @@ class RoomNetworkProvider {
     print("[fetch] add room : " + response.statusCode.toString());
     return response;
   }
+
+  static Future<http.Response> turnOnRoom({required String roomId}) async {
+    final response =
+        await http.post(Uri.parse("${dotenv.env["SERVER_BASE_URL"]}/room/on"),
+            headers: {
+              "Content-Type": "application/json",
+              "Accept": "application/json",
+            },
+            body: jsonEncode({
+              "roomId": roomId,
+            }));
+    print("[fetch] turn on room : " + response.statusCode.toString());
+    return response;
+  }
+
+  static Future<http.Response> turnOffRoom({required String roomId}) async {
+    final response =
+        await http.post(Uri.parse("${dotenv.env["SERVER_BASE_URL"]}/room/off"),
+            headers: {
+              "Content-Type": "application/json",
+              "Accept": "application/json",
+            },
+            body: jsonEncode({
+              "roomId": roomId,
+            }));
+    print("[fetch] turn off room : " + response.statusCode.toString());
+    return response;
+  }
 }

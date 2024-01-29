@@ -40,6 +40,8 @@ class Room {
     } else {
       status = RoomOnOffStatus.off;
     }
+
+    print(json);
     return Room(
         roomId: json["roomId"],
         roomName: json["roomName"],

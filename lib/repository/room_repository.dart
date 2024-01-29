@@ -49,4 +49,44 @@ class RoomRepository {
       return null;
     }
   }
+
+  static Future<bool> turnOnRoom({required String roomId}) async {
+    try {
+      http.Response response =
+          await RoomNetworkProvider.turnOnRoom(roomId: roomId);
+      switch (response.statusCode) {
+        case 201:
+          break;
+        case 401:
+          throw Exception("Unauthorized");
+        case 500:
+          throw Exception("Internal Server Error");
+        default:
+          throw Exception("Unknown Error");
+      }
+      return true;
+    } catch (error) {
+      return false;
+    }
+  }
+
+  static Future<bool> turnOffRoom({required String roomId}) async {
+    try {
+      http.Response response =
+          await RoomNetworkProvider.turnOffRoom(roomId: roomId);
+      switch (response.statusCode) {
+        case 201:
+          break;
+        case 401:
+          throw Exception("Unauthorized");
+        case 500:
+          throw Exception("Internal Server Error");
+        default:
+          throw Exception("Unknown Error");
+      }
+      return true;
+    } catch (error) {
+      return false;
+    }
+  }
 }

@@ -1,28 +1,38 @@
 import 'package:get/get.dart';
 
 import 'package:mr_sunshine_client/models/room.dart';
+import 'package:mr_sunshine_client/models/sun_time.dart';
 import 'package:mr_sunshine_client/repository/room_repository.dart';
 
 class HomeController extends GetxController {
   RxList<Room> rooms = <Room>[].obs;
 
   Future<bool> toggleRoomLight(String roomId) async {
-    Room? selectedRoom =
-        rooms.firstWhereOrNull((element) => element.roomId == roomId);
-
-    if (selectedRoom == null) {
+    Room? room = rooms.firstWhereOrNull((element) => element.roomId == roomId);
+    if (room == null) {
       return false;
     }
 
-    switch (selectedRoom.status) {
+    bool res = false;
+    switch (room.status) {
       case RoomOnOffStatus.auto:
-        selectedRoom.status = RoomOnOffStatus.on;
+      case RoomOnOffStatus.off:
+        res = await RoomRepository.turnOnRoom(roomId: roomId).then((value) {
+          if (value) {
+            room.status = RoomOnOffStatus.on;
+            rooms.refresh();
+          }
+          return value;
+        });
         break;
       case RoomOnOffStatus.on:
-        selectedRoom.status = RoomOnOffStatus.off;
-        break;
-      case RoomOnOffStatus.off:
-        selectedRoom.status = RoomOnOffStatus.on;
+        res = await RoomRepository.turnOffRoom(roomId: roomId).then((value) {
+          if (value) {
+            room.status = RoomOnOffStatus.off;
+            rooms.refresh();
+          }
+          return value;
+        });
         break;
       default:
         break;
@@ -54,11 +64,13 @@ class HomeController extends GetxController {
     return true;
   }
 
-  Future<bool> goToRoom(Room room) async {
-    print(room.roomId);
-
-    rooms.refresh();
-
-    return true;
+  Room getRoom(String roomId) {
+    return rooms.firstWhere((element) => element.roomId == roomId);
   }
+
+  //// sun time
+  Rx<SunTime> sunTime = SunTime(
+          sunrise: DateTime.parse('2024-01-28 06:00:00'),
+          sunset: DateTime.parse('2024-01-28 18:00:00'))
+      .obs;
 }
