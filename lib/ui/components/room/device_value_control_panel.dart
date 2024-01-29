@@ -17,8 +17,14 @@ import 'package:mr_sunshine_client/ui/components/public/texts.dart';
 class DeviceValueControlPanel extends StatefulWidget {
   final String deviceID;
   final bool onOffVisible;
+  final int initValue;
+  final Future<bool> Function(int) setValue;
   const DeviceValueControlPanel(
-      {super.key, required this.deviceID, this.onOffVisible = true});
+      {super.key,
+      required this.deviceID,
+      required this.initValue,
+      this.onOffVisible = true,
+      required this.setValue});
 
   @override
   State<DeviceValueControlPanel> createState() =>
@@ -28,6 +34,12 @@ class DeviceValueControlPanel extends StatefulWidget {
 class _DeviceValueControlPanelState extends State<DeviceValueControlPanel> {
   double sliderValue = 0;
   Timer? _debounce;
+
+  @override
+  void initState() {
+    setSliderValue(widget.initValue as double);
+    super.initState();
+  }
 
   void setSliderValue(double value) {
     if (0 <= sliderValue && sliderValue <= 10) {
@@ -52,7 +64,13 @@ class _DeviceValueControlPanelState extends State<DeviceValueControlPanel> {
       _debounce!.cancel();
     }
     _debounce = Timer(const Duration(milliseconds: 500), () {
-      Get.find<RoomController>().setDeviceValue(widget.deviceID, sliderValue);
+      widget.setValue(value.toInt()).then((val) {
+        if (val) {
+          setState(() {
+            sliderValue = value.toDouble();
+          });
+        }
+      });
     });
   }
 
@@ -64,7 +82,7 @@ class _DeviceValueControlPanelState extends State<DeviceValueControlPanel> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       width: 228.w,
       height: 228.w,
       // color: Colors.blue,
@@ -177,7 +195,7 @@ class ValueBarPainter extends CustomPainter {
 
     //Value Bar
     Paint trackPaint = Paint()
-      ..color = const Color(0xFFFDEEB6)
+      ..color = AppColor.primary
       ..style = PaintingStyle.stroke
       ..strokeWidth = 13.w
       ..strokeCap = StrokeCap.round
@@ -290,7 +308,7 @@ class ForegroundPainter extends CustomPainter {
       ..shader = SweepGradient(
         startAngle: 3 * pi / 2 + (value / 100) * 2 * pi,
         endAngle: 7 * pi / 2 + (value / 100) * 2 * pi,
-        colors: [AppColor.primary, AppColor.surface],
+        colors: const [AppColor.primary, AppColor.surface],
         tileMode: TileMode.repeated,
       ).createShader(
         Rect.fromCircle(

@@ -123,6 +123,37 @@ class RoomController extends GetxController {
     return res;
   }
 
+  Future<bool> testWakeUpValue(String deviceID, int value) async {
+    Device? device =
+        deviceList.firstWhereOrNull((element) => element.deviceID == deviceID);
+    if (device == null) {
+      return false;
+    }
+    bool res = await DeviceRepository.testWakeUpValue(
+        deviceId: device.deviceID, value: value);
+    return res;
+  }
+
+  Future<bool> setWakeUpValue(String deviceID, int value) async {
+    Device? device =
+        deviceList.firstWhereOrNull((element) => element.deviceID == deviceID);
+    if (device == null) {
+      return false;
+    }
+    bool res = await DeviceRepository.setWakeUpValue(
+            deviceId: device.deviceID, value: value)
+        .then((val) {
+      if (val) {
+        device.wakeUpValue = value;
+        deviceList.refresh();
+        return true;
+      }
+      return false;
+    });
+
+    return res;
+  }
+
   String? getFirstDeviceID() {
     if (deviceList.isEmpty) {
       return null;

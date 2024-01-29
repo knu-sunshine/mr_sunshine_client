@@ -18,7 +18,7 @@ Widget deviceListElement(
           TextInputModal(
             title: "Add Device",
             subscription: "Enter the name of the device",
-            fields: ["device Id", "device name"],
+            fields: const ["device Id", "device name"],
             onSubmit: (List<String> values) => {
               Get.find<RoomController>()
                   .addDevice(deviceId: values[0], deviceName: values[1])
