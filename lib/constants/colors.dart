@@ -12,4 +12,7 @@ class AppColor {
   static const Color inActive = Color(0xFFECECEC);
 
   static const Color black = Color(0xFF000000);
+
+  static const Color sunWarm = Color(0xFFECC099);
+  static const Color sunCold = Color(0xFFB4CFE6);
 }
