@@ -13,7 +13,7 @@ class DeviceNetworkProvider {
         "Accept": "application/json",
       },
     );
-    print("[fetch] get device list : " + response.statusCode.toString());
+    print("[fetch] get device list : ${response.statusCode}");
     return response;
   }
 
@@ -32,7 +32,7 @@ class DeviceNetworkProvider {
           "deviceId": deviceId,
           "deviceName": deviceName,
         }));
-    print("[fetch] add device : " + response.statusCode.toString());
+    print("[fetch] add device : ${response.statusCode}");
     return response;
   }
 
@@ -46,7 +46,7 @@ class DeviceNetworkProvider {
             body: jsonEncode({
               "deviceId": deviceId,
             }));
-    print("[fetch] turn on device : " + response.statusCode.toString());
+    print("[fetch] turn on device : ${response.statusCode}");
     return response;
   }
 
@@ -60,7 +60,7 @@ class DeviceNetworkProvider {
         body: jsonEncode({
           "deviceId": deviceId,
         }));
-    print("[fetch] turn off device : " + response.statusCode.toString());
+    print("[fetch] turn off device : ${response.statusCode}");
     return response;
   }
 
@@ -76,7 +76,7 @@ class DeviceNetworkProvider {
           "deviceId": deviceId,
           "value": value,
         }));
-    print("[fetch] set device value : " + response.statusCode.toString());
+    print("[fetch] set device value : ${response.statusCode}");
     return response;
   }
 
@@ -90,7 +90,7 @@ class DeviceNetworkProvider {
         "Accept": "application/json",
       },
     );
-    print("[fetch] test wake up value : " + response.statusCode.toString());
+    print("[fetch] test wake up value : ${response.statusCode}");
     return response;
   }
 
@@ -106,7 +106,7 @@ class DeviceNetworkProvider {
           "deviceId": deviceId,
           "value": value,
         }));
-    print("[fetch] set wake up value : " + response.statusCode.toString());
+    print("[fetch] set wake up value : ${response.statusCode}");
     return response;
   }
 }

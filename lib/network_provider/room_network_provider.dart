@@ -12,7 +12,7 @@ class RoomNetworkProvider {
         "Accept": "application/json",
       },
     );
-    print("[fetch] get room list : " + response.statusCode.toString());
+    print("[fetch] get room list : ${response.statusCode}");
     return response;
   }
 
@@ -28,7 +28,7 @@ class RoomNetworkProvider {
               "userId": userId,
               "roomName": roomName,
             }));
-    print("[fetch] add room : " + response.statusCode.toString());
+    print("[fetch] add room : ${response.statusCode}");
     return response;
   }
 
@@ -42,7 +42,7 @@ class RoomNetworkProvider {
             body: jsonEncode({
               "roomId": roomId,
             }));
-    print("[fetch] turn on room : " + response.statusCode.toString());
+    print("[fetch] turn on room : ${response.statusCode}");
     return response;
   }
 
@@ -56,7 +56,7 @@ class RoomNetworkProvider {
             body: jsonEncode({
               "roomId": roomId,
             }));
-    print("[fetch] turn off room : " + response.statusCode.toString());
+    print("[fetch] turn off room : ${response.statusCode}");
     return response;
   }
 }

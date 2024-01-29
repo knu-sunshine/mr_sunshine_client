@@ -10,7 +10,7 @@ class SunTimeNetworkProvider {
         "Accept": "application/json",
       },
     );
-    print("[fetch] get sun time : " + response.statusCode.toString());
+    print("[fetch] get sun time : ${response.statusCode}");
     return response;
   }
 }

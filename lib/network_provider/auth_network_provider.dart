@@ -15,7 +15,7 @@ class AuthNetworkProvider {
         body: jsonEncode({
           "googleToken": googleAccessToken,
         }));
-    print("[fetch] sign up : " + response.statusCode.toString());
+    print("[fetch] sign up : ${response.statusCode}");
     return response;
   }
 
@@ -30,7 +30,7 @@ class AuthNetworkProvider {
         "userId": session,
       }),
     );
-    print("[fetch] log in : " + response.statusCode.toString());
+    print("[fetch] log in : ${response.statusCode}");
     return response;
   }
 }
