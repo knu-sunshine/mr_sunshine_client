@@ -186,7 +186,7 @@ Widget deviceOnOffButton({required Device device}) {
       Container();
 
   return AnimatedContainer(
-    duration: Duration(milliseconds: 75),
+    duration: const Duration(milliseconds: 75),
     curve: Curves.easeOut,
     width: 69.w,
     height: 69.w,
@@ -210,7 +210,7 @@ Widget deviceOnOffButton({required Device device}) {
                 spreadRadius: 1.5.r,
                 blurRadius: 1.5.r,
               ),
-              BoxShadow(
+              const BoxShadow(
                 color: AppColor.surface,
               ),
             ],
