@@ -108,12 +108,25 @@ class _TextInputModalState extends State<TextInputModal> {
   }
 }
 
-class WakeUpValueModal extends StatelessWidget {
+class WakeUpValueModal extends StatefulWidget {
   final String deviceId;
   const WakeUpValueModal({
     required this.deviceId,
     super.key,
   });
+
+  @override
+  State<WakeUpValueModal> createState() => _WakeUpValueModalState();
+}
+
+class _WakeUpValueModalState extends State<WakeUpValueModal> {
+  int value = 0;
+
+  void setValue(int val) {
+    setState(() {
+      value = val;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -136,8 +149,9 @@ class WakeUpValueModal extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    modalTitle(
-                        Get.find<RoomController>().getDevice(deviceId)!.name),
+                    modalTitle(Get.find<RoomController>()
+                        .getDevice(widget.deviceId)!
+                        .name),
                     cancelButton(),
                   ],
                 ),
@@ -152,8 +166,15 @@ class WakeUpValueModal extends StatelessWidget {
                 height: 32.h,
               ),
               DeviceValueControlPanel(
-                deviceID: deviceId,
+                deviceID: widget.deviceId,
                 onOffVisible: false,
+                initValue: Get.find<RoomController>()
+                    .getDevice(widget.deviceId)!
+                    .wakeUpValue,
+                setValue: (val) async {
+                  setValue(val);
+                  return true;
+                },
               ),
               SizedBox(
                 height: 31.h,
@@ -161,11 +182,21 @@ class WakeUpValueModal extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  textButton(text: "Test", onClick: () {}),
+                  textButton(
+                      text: "Test",
+                      onClick: () {
+                        Get.find<RoomController>()
+                            .testWakeUpValue(widget.deviceId, value);
+                      }),
                   SizedBox(
                     width: 22.w,
                   ),
-                  textButton(text: "Confirm", onClick: () {}),
+                  textButton(
+                      text: "Confirm",
+                      onClick: () {
+                        Get.find<RoomController>()
+                            .setWakeUpValue(widget.deviceId, value);
+                      }),
                 ],
               )
             ],
@@ -244,7 +275,9 @@ class DeviceInfoModal extends StatelessWidget {
         divier(width: 270.w, height: 21.h, topIndent: 11.h),
         _infoElement(index: "Device Id", value: device.deviceID),
         divier(width: 270.w, height: 21.h, topIndent: 11.h),
-        _infoElement(index: "Room", value: device.roomName),
+        _infoElement(
+            index: "Room",
+            value: Get.find<RoomController>().room.value.roomName),
         divier(width: 270.w, height: 21.h, topIndent: 11.h),
         _infoElement(index: "Category", value: category),
         divier(width: 270.w, height: 21.h, topIndent: 11.h),

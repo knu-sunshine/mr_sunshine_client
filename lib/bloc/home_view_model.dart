@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:mr_sunshine_client/models/room.dart';
 import 'package:mr_sunshine_client/models/sun_time.dart';
 import 'package:mr_sunshine_client/repository/room_repository.dart';
+import 'package:mr_sunshine_client/repository/sun_time_repository.dart';
 
 class HomeController extends GetxController {
   RxList<Room> rooms = <Room>[].obs;
@@ -40,7 +41,7 @@ class HomeController extends GetxController {
 
     rooms.refresh();
 
-    return true;
+    return res;
   }
 
   Future<bool> getRoomList() async {
@@ -70,7 +71,18 @@ class HomeController extends GetxController {
 
   //// sun time
   Rx<SunTime> sunTime = SunTime(
-          sunrise: DateTime.parse('2024-01-28 06:00:00'),
-          sunset: DateTime.parse('2024-01-28 18:00:00'))
+          sunrise: DateTime.now().copyWith(hour: 6),
+          sunset: DateTime.now().copyWith(hour: 18))
       .obs;
+
+  Future<bool> initSunTime() async {
+    bool res = await SunTimeRepository.getSunTime().then((val) {
+      if (val != null) {
+        sunTime(val);
+        return true;
+      }
+      return false;
+    });
+    return res;
+  }
 }
