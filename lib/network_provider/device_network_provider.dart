@@ -79,4 +79,34 @@ class DeviceNetworkProvider {
     print("[fetch] set device value : " + response.statusCode.toString());
     return response;
   }
+
+  static Future<http.Response> testWakeUpValue(
+      {required String deviceId, required int value}) async {
+    final response = await http.get(
+      Uri.parse(
+          "${dotenv.env["SERVER_BASE_URL"]}/device/testWakeUpValue?deviceId=$deviceId&value=$value"),
+      headers: {
+        "Content-Type": "application/json",
+        "Accept": "application/json",
+      },
+    );
+    print("[fetch] test wake up value : " + response.statusCode.toString());
+    return response;
+  }
+
+  static Future<http.Response> setWakeUpValue(
+      {required String deviceId, required int value}) async {
+    final response = await http.post(
+        Uri.parse("${dotenv.env["SERVER_BASE_URL"]}/device/setWakeUpValue"),
+        headers: {
+          "Content-Type": "application/json",
+          "Accept": "application/json",
+        },
+        body: jsonEncode({
+          "deviceId": deviceId,
+          "value": value,
+        }));
+    print("[fetch] set wake up value : " + response.statusCode.toString());
+    return response;
+  }
 }

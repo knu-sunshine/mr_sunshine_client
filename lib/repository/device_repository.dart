@@ -128,4 +128,56 @@ class DeviceRepository {
       return false;
     }
   }
+
+  static Future<bool> testWakeUpValue({
+    required String deviceId,
+    required int value,
+  }) async {
+    try {
+      http.Response response = await DeviceNetworkProvider.testWakeUpValue(
+        deviceId: deviceId,
+        value: value,
+      );
+      switch (response.statusCode) {
+        case 200:
+          break;
+        case 401:
+          throw Exception("Unauthorized");
+        case 500:
+          throw Exception("Internal Server Error");
+        default:
+          throw Exception("Unknown Error");
+      }
+      return true;
+    } catch (error) {
+      print(error);
+      return false;
+    }
+  }
+
+  static Future<bool> setWakeUpValue({
+    required String deviceId,
+    required int value,
+  }) async {
+    try {
+      http.Response response = await DeviceNetworkProvider.setWakeUpValue(
+        deviceId: deviceId,
+        value: value,
+      );
+      switch (response.statusCode) {
+        case 201:
+          break;
+        case 401:
+          throw Exception("Unauthorized");
+        case 500:
+          throw Exception("Internal Server Error");
+        default:
+          throw Exception("Unknown Error");
+      }
+      return true;
+    } catch (error) {
+      print(error);
+      return false;
+    }
+  }
 }
