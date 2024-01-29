@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:mr_sunshine_client/bloc/home_view_model.dart';
 import 'package:mr_sunshine_client/models/device.dart';
 
 import 'package:mr_sunshine_client/models/room.dart';
@@ -12,6 +13,12 @@ class RoomController extends GetxController {
     status: RoomOnOffStatus.auto,
     lightValue: 50,
   ).obs;
+
+  Future<bool> initRoom(String roomId) async {
+    room.value = Get.find<HomeController>().getRoom(roomId);
+    room.refresh();
+    return true;
+  }
 
   Future<bool> toggleAuto() async {
     room.update((val) {
@@ -35,31 +42,6 @@ class RoomController extends GetxController {
 
   RxList<Device> deviceList = <Device>[].obs;
 
-  Future<bool> toggleDeviceOnOff(String deviceID) async {
-    Device? device =
-        deviceList.firstWhereOrNull((element) => element.deviceID == deviceID);
-    if (device == null) {
-      return false;
-    }
-    device.isOn = !device.isOn;
-
-    deviceList.refresh();
-    return true;
-  }
-
-  Future<bool> setDeviceValue(String deviceID, double value) async {
-    print(value);
-    return true;
-  }
-
-  String? getFirstDeviceID() {
-    if (deviceList.isEmpty) {
-      return null;
-    } else {
-      return deviceList.first.deviceID;
-    }
-  }
-
   Device? getDevice(String deviceID) {
     return deviceList
         .firstWhereOrNull((element) => element.deviceID == deviceID);
@@ -80,5 +62,72 @@ class RoomController extends GetxController {
     deviceList.add(device);
     deviceList.refresh();
     return true;
+  }
+
+  Future<bool> getDeviceList() async {
+    List<Device>? newDeviceList =
+        await DeviceRepository.getDeviceList(roomId: room.value.roomId);
+    if (newDeviceList == null) {
+      return false;
+    }
+    deviceList.value = newDeviceList;
+    deviceList.refresh();
+    return true;
+  }
+
+  Future<bool> toggleDeviceOnOff(String deviceID) async {
+    Device? device =
+        deviceList.firstWhereOrNull((element) => element.deviceID == deviceID);
+    if (device == null) {
+      return false;
+    }
+    bool res = false;
+    if (device.isOn == true) {
+      res = await DeviceRepository.turnOffDevice(deviceId: device.deviceID)
+          .then((val) {
+        if (val) {
+          device.isOn = false;
+          deviceList.refresh();
+        }
+        return val;
+      });
+    } else {
+      res = await DeviceRepository.turnOnDevice(deviceId: device.deviceID)
+          .then((val) {
+        if (val) {
+          device.isOn = true;
+          deviceList.refresh();
+        }
+        return val;
+      });
+    }
+    return res;
+  }
+
+  Future<bool> setDeviceValue(String deviceID, int value) async {
+    Device? device =
+        deviceList.firstWhereOrNull((element) => element.deviceID == deviceID);
+    if (device == null) {
+      return false;
+    }
+    bool res = await DeviceRepository.setDeviceValue(
+            deviceId: device.deviceID, value: value)
+        .then((val) {
+      if (val) {
+        device.deviceValue = value;
+        deviceList.refresh();
+        return true;
+      }
+      return false;
+    });
+    return res;
+  }
+
+  String? getFirstDeviceID() {
+    if (deviceList.isEmpty) {
+      return null;
+    } else {
+      return deviceList.first.deviceID;
+    }
   }
 }
