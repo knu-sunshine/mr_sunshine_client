@@ -4,6 +4,7 @@ import 'package:mr_sunshine_client/models/device.dart';
 
 import 'package:mr_sunshine_client/models/room.dart';
 import 'package:mr_sunshine_client/repository/device_repository.dart';
+import 'package:mr_sunshine_client/repository/room_repository.dart';
 
 class RoomController extends GetxController {
   Rx<Room> room = Room(
@@ -21,26 +22,47 @@ class RoomController extends GetxController {
   }
 
   Future<bool> toggleAuto() async {
-    room.update((val) {
-      if (val == null) return;
-      switch (val.status) {
-        case RoomOnOffStatus.on:
-        case RoomOnOffStatus.off:
-          val.status = RoomOnOffStatus.auto;
-          break;
-        case RoomOnOffStatus.auto:
-          val.status = RoomOnOffStatus.on;
-          break;
-        default:
-          break;
-      }
-    });
-    return true;
+    switch (room.value.status) {
+      case RoomOnOffStatus.on:
+      case RoomOnOffStatus.off:
+        return await RoomRepository.setAutoOn(roomId: room.value.roomId)
+            .then((value) {
+          if (value) {
+            room.value.status = RoomOnOffStatus.auto;
+            room.refresh();
+            return true;
+          }
+          return false;
+        });
+      case RoomOnOffStatus.auto:
+        return await RoomRepository.setAutoOff(roomId: room.value.roomId)
+            .then((value) {
+          if (value) {
+            room.value.status = RoomOnOffStatus.off;
+            room.refresh();
+            return true;
+          }
+          return false;
+        });
+      default:
+        return false;
+    }
   }
 
   ////devices
 
-  RxList<Device> deviceList = <Device>[].obs;
+  RxList<Device> deviceList = <Device>[
+    Device(
+      roomId: "1",
+      deviceID: "d1",
+      name: "light",
+      deviceCategory: DeviceCategory.light,
+      isOn: true,
+      deviceValue: 100,
+      isWakeUpOn: false,
+      wakeUpValue: 0,
+    ),
+  ].obs;
 
   Device? getDevice(String deviceID) {
     return deviceList
@@ -87,6 +109,7 @@ class RoomController extends GetxController {
           .then((val) {
         if (val) {
           device.isOn = false;
+          device.deviceValue = 0;
           deviceList.refresh();
         }
         return val;
@@ -96,6 +119,7 @@ class RoomController extends GetxController {
           .then((val) {
         if (val) {
           device.isOn = true;
+          device.deviceValue = 100;
           deviceList.refresh();
         }
         return val;
@@ -120,6 +144,36 @@ class RoomController extends GetxController {
       }
       return false;
     });
+    return res;
+  }
+
+  Future<bool> toggleDeviceWakeUpOnOff(String deviceID) async {
+    Device? device =
+        deviceList.firstWhereOrNull((element) => element.deviceID == deviceID);
+    if (device == null) {
+      return false;
+    }
+    bool res = false;
+    if (device.isWakeUpOn == true) {
+      res =
+          await DeviceRepository.turnOffDeviceWakeUp(deviceId: device.deviceID)
+              .then((val) {
+        if (val) {
+          device.isWakeUpOn = false;
+          deviceList.refresh();
+        }
+        return val;
+      });
+    } else {
+      res = await DeviceRepository.turnOnDeviceWakeUp(deviceId: device.deviceID)
+          .then((val) {
+        if (val) {
+          device.isWakeUpOn = true;
+          deviceList.refresh();
+        }
+        return val;
+      });
+    }
     return res;
   }
 

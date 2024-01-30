@@ -59,4 +59,32 @@ class RoomNetworkProvider {
     print("[fetch] turn off room : ${response.statusCode}");
     return response;
   }
+
+  static Future<http.Response> setAutoOn({required String roomId}) async {
+    final response = await http.post(
+        Uri.parse("${dotenv.env["SERVER_BASE_URL"]}/room/autoOn"),
+        headers: {
+          "Content-Type": "application/json",
+          "Accept": "application/json",
+        },
+        body: jsonEncode({
+          "roomId": roomId,
+        }));
+    print("[fetch] room auto on : ${response.statusCode}");
+    return response;
+  }
+
+  static Future<http.Response> setAutoOff({required String roomId}) async {
+    final response = await http.post(
+        Uri.parse("${dotenv.env["SERVER_BASE_URL"]}/room/autoOff"),
+        headers: {
+          "Content-Type": "application/json",
+          "Accept": "application/json",
+        },
+        body: jsonEncode({
+          "roomId": roomId,
+        }));
+    print("[fetch] room auto off : ${response.statusCode}");
+    return response;
+  }
 }
