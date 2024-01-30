@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:intl/intl.dart';
+
 class SunTime {
   final DateTime sunrise;
   final DateTime sunset;
@@ -7,7 +9,11 @@ class SunTime {
   SunTime({required this.sunrise, required this.sunset});
 
   factory SunTime.fromJson(Map<String, dynamic> json) {
-    return SunTime(sunrise: json['sunrise'], sunset: json['sunset']);
+    DateFormat dateFormat = DateFormat('M/d/yyyy, h:mm:ss a');
+
+    return SunTime(
+        sunrise: dateFormat.parse(json['sunrise']),
+        sunset: dateFormat.parse(json['sunset']));
   }
 }
 

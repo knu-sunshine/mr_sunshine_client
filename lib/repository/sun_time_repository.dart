@@ -19,6 +19,7 @@ class SunTimeRepository {
       SunTime sunTime = sunTimeFromJson(response.body);
       return sunTime;
     } catch (error) {
+      print(error);
       return null;
     }
   }
