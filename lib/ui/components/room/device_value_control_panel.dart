@@ -16,15 +16,18 @@ import 'package:mr_sunshine_client/ui/components/public/texts.dart';
 
 class DeviceValueControlPanel extends StatefulWidget {
   final String deviceID;
-  final bool onOffVisible;
   final int initValue;
   final Future<bool> Function(int) setValue;
-  const DeviceValueControlPanel(
-      {super.key,
-      required this.deviceID,
-      required this.initValue,
-      this.onOffVisible = true,
-      required this.setValue});
+  final bool isOn;
+  final void Function() onToggle;
+  const DeviceValueControlPanel({
+    super.key,
+    required this.deviceID,
+    required this.initValue,
+    required this.setValue,
+    required this.isOn,
+    required this.onToggle,
+  });
 
   @override
   State<DeviceValueControlPanel> createState() =>
@@ -37,11 +40,13 @@ class _DeviceValueControlPanelState extends State<DeviceValueControlPanel> {
 
   @override
   void initState() {
-    setSliderValue(widget.initValue as double);
+    sliderValue = widget.initValue.toDouble();
     super.initState();
   }
 
   void setSliderValue(double value) {
+    if (widget.isOn == false) return;
+
     if (0 <= sliderValue && sliderValue <= 10) {
       if (value <= 20) {
         setState(() {
@@ -82,52 +87,59 @@ class _DeviceValueControlPanelState extends State<DeviceValueControlPanel> {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: 228.w,
-      height: 228.w,
-      // color: Colors.blue,
-      child: Stack(
-        children: [
-          Positioned(
-            width: 228.w,
-            height: 228.w,
-            child: CustomPaint(
-              painter: BackgroundPainter(),
-            ),
-          ),
-          Positioned(
-            width: 228.w,
-            height: 228.w,
-            child: CustomPaint(
-              painter: ForegroundPainter(
-                value: sliderValue,
-              ),
-            ),
-          ),
-          Positioned(
-            width: 228.w,
-            height: 228.w,
-            child: CustomPaint(
-              painter: ValueBarPainter(
-                value: sliderValue,
-              ),
-            ),
-          ),
-          Positioned(
+    return ColorFiltered(
+      colorFilter: widget.isOn
+          ? const ColorFilter.mode(Colors.transparent, BlendMode.dst)
+          : const ColorFilter.mode(AppColor.background, BlendMode.saturation),
+      child: SizedBox(
+        width: 228.w,
+        height: 228.w,
+        child: Stack(
+          children: [
+            Positioned(
               width: 228.w,
               height: 228.w,
-              child: midPanel(
-                  deviceID: widget.deviceID,
-                  onOffVisible: widget.onOffVisible)),
-          Positioned(
-            width: 228.w,
-            height: 228.w,
-            child: radialGauge(
-              sliderValue: sliderValue,
-              setSliderValue: setSliderValue,
+              child: CustomPaint(
+                painter: BackgroundPainter(),
+              ),
             ),
-          ),
-        ],
+            Positioned(
+              width: 228.w,
+              height: 228.w,
+              child: CustomPaint(
+                painter: ForegroundPainter(
+                  value: sliderValue,
+                ),
+              ),
+            ),
+            Positioned(
+              width: 228.w,
+              height: 228.w,
+              child: CustomPaint(
+                painter: ValueBarPainter(
+                  value: sliderValue,
+                ),
+              ),
+            ),
+            Positioned(
+                width: 228.w,
+                height: 228.w,
+                child: midPanel(
+                    deviceID: widget.deviceID,
+                    isOn: widget.isOn,
+                    onToggle: () {
+                      widget.onToggle();
+                    })),
+            Positioned(
+              width: 228.w,
+              height: 228.w,
+              child: radialGauge(
+                sliderValue: sliderValue,
+                setSliderValue: setSliderValue,
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -218,13 +230,12 @@ class ValueBarPainter extends CustomPainter {
   bool shouldRepaint(ValueBarPainter oldDelegate) => false;
 }
 
-Widget midPanel({required String deviceID, required bool onOffVisible}) {
-  RoomOnOffStatus status = Get.find<RoomController>().getDevice(deviceID)!.isOn
-      ? RoomOnOffStatus.on
-      : RoomOnOffStatus.off;
-  void onClick() {
-    Get.find<RoomController>().toggleDeviceOnOff(deviceID);
-  }
+Widget midPanel({
+  required String deviceID,
+  required void Function() onToggle,
+  required bool isOn,
+}) {
+  RoomOnOffStatus status = isOn ? RoomOnOffStatus.on : RoomOnOffStatus.off;
 
   String iconUrl = {
     DeviceCategory.light: "assets/icons/device/light.png",
@@ -245,12 +256,7 @@ Widget midPanel({required String deviceID, required bool onOffVisible}) {
         SizedBox(
           height: 16.h,
         ),
-        onOffVisible
-            ? onOffToggle(status: status, onClick: onClick)
-            : SizedBox(
-                width: 27.w,
-                height: 27.w,
-              ),
+        onOffToggle(status: status, onClick: onToggle),
       ],
     ),
   );
