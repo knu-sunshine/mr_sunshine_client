@@ -20,6 +20,7 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     Get.find<HomeController>().getRoomList();
+    Get.find<HomeController>().initSunTime();
     super.initState();
   }
 
