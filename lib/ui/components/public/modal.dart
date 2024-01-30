@@ -133,76 +133,84 @@ class _WakeUpValueModalState extends State<WakeUpValueModal> {
     return BackdropFilter(
       filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
       child: Dialog(
-        backgroundColor: Colors.transparent,
-        insetPadding: EdgeInsets.symmetric(horizontal: 0.w, vertical: 0.h),
-        child: Container(
-          width: 310.w,
-          height: 442.h,
-          color: AppColor.background,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              SizedBox(
-                width: 265.w,
-                height: 41.h,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    modalTitle(Get.find<RoomController>()
-                        .getDevice(widget.deviceId)!
-                        .name),
-                    cancelButton(),
-                  ],
-                ),
-              ),
-              Container(
-                width: 265.w,
-                height: 20.h,
-                alignment: Alignment.centerLeft,
-                child: modalDescription("Set amount of Light for waking up"),
-              ),
-              SizedBox(
-                height: 32.h,
-              ),
-              DeviceValueControlPanel(
-                deviceID: widget.deviceId,
-                onOffVisible: false,
-                initValue: Get.find<RoomController>()
-                    .getDevice(widget.deviceId)!
-                    .wakeUpValue,
-                setValue: (val) async {
-                  setValue(val);
-                  return true;
-                },
-              ),
-              SizedBox(
-                height: 31.h,
-              ),
-              Row(
+          backgroundColor: Colors.transparent,
+          insetPadding: EdgeInsets.symmetric(horizontal: 0.w, vertical: 0.h),
+          child: Obx(
+            () => Container(
+              width: 310.w,
+              height: 442.h,
+              color: AppColor.background,
+              child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  textButton(
-                      text: "Test",
-                      onClick: () {
-                        Get.find<RoomController>()
-                            .testWakeUpValue(widget.deviceId, value);
-                      }),
                   SizedBox(
-                    width: 22.w,
+                    width: 265.w,
+                    height: 41.h,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        modalTitle(Get.find<RoomController>()
+                            .getDevice(widget.deviceId)!
+                            .name),
+                        cancelButton(),
+                      ],
+                    ),
                   ),
-                  textButton(
-                      text: "Confirm",
-                      onClick: () {
-                        Get.find<RoomController>()
-                            .setWakeUpValue(widget.deviceId, value);
-                      }),
+                  Container(
+                    width: 265.w,
+                    height: 20.h,
+                    alignment: Alignment.centerLeft,
+                    child:
+                        modalDescription("Set amount of Light for waking up"),
+                  ),
+                  SizedBox(
+                    height: 32.h,
+                  ),
+                  DeviceValueControlPanel(
+                    deviceID: widget.deviceId,
+                    initValue: Get.find<RoomController>()
+                        .getDevice(widget.deviceId)!
+                        .wakeUpValue,
+                    setValue: (val) async {
+                      setValue(val);
+                      return true;
+                    },
+                    isOn: Get.find<RoomController>()
+                        .getDevice(widget.deviceId)!
+                        .isWakeUpOn,
+                    onToggle: () {
+                      Get.find<RoomController>()
+                          .toggleDeviceWakeUpOnOff(widget.deviceId);
+                    },
+                  ),
+                  SizedBox(
+                    height: 31.h,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      textButton(
+                          text: "Test",
+                          onClick: () {
+                            Get.find<RoomController>()
+                                .testWakeUpValue(widget.deviceId, value);
+                          }),
+                      SizedBox(
+                        width: 22.w,
+                      ),
+                      textButton(
+                          text: "Confirm",
+                          onClick: () {
+                            Get.find<RoomController>()
+                                .setWakeUpValue(widget.deviceId, value);
+                          }),
+                    ],
+                  )
                 ],
-              )
-            ],
-          ),
-        ),
-      ),
+              ),
+            ),
+          )),
     );
   }
 }
