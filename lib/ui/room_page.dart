@@ -41,7 +41,7 @@ class _RoomPageState extends State<RoomPage> {
           resizeToAvoidBottomInset: false,
           body: Column(
             children: [
-              appBar(title: "Living Room", suffixWidget: cancelButton()),
+              appBar(title: "Living Room", prefixWidget: backButton()),
               divier(
                 width: 332.w,
                 height: 22.h,
@@ -67,10 +67,16 @@ class _RoomPageState extends State<RoomPage> {
                     )
                   : DeviceValueControlPanel(
                       deviceID: selectedDeviceId,
-                      onOffVisible: true,
                       initValue: Get.find<RoomController>()
                           .getDevice(selectedDeviceId)!
                           .deviceValue,
+                      onToggle: () {
+                        Get.find<RoomController>()
+                            .toggleDeviceOnOff(selectedDeviceId);
+                      },
+                      isOn: Get.find<RoomController>()
+                          .getDevice(selectedDeviceId)!
+                          .isOn,
                       setValue: (val) async {
                         return await Get.find<RoomController>()
                             .setDeviceValue(selectedDeviceId, val.toInt());

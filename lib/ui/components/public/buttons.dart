@@ -55,8 +55,9 @@ Widget onOffToggle(
 ////
 Widget onOffSwitch(
     {required RoomOnOffStatus status, required void Function(bool) onClick}) {
+  print(status);
   return Switch(
-    value: status == RoomOnOffStatus.on,
+    value: status == RoomOnOffStatus.auto,
     onChanged: onClick,
     activeColor: AppColor.surface,
     activeTrackColor: AppColor.primary,
@@ -95,6 +96,19 @@ Widget cancelButton() {
     },
     child: Image.asset(
       "assets/icons/public/cancel.png",
+      width: 24.w,
+    ),
+  );
+}
+
+//// back button
+Widget backButton() {
+  return GestureDetector(
+    onTap: () {
+      Get.back();
+    },
+    child: Image.asset(
+      "assets/icons/public/back.png",
       width: 24.w,
     ),
   );
@@ -173,6 +187,16 @@ Widget deviceOnOffButton({required Device device}) {
           child: Image.asset(
             "assets/icons/device/curtain.png",
             width: 30.w,
+          ),
+        ),
+        DeviceCategory.sensor: Align(
+          alignment: Alignment.topCenter,
+          child: Container(
+            margin: EdgeInsets.only(top: 15.w),
+            child: Image.asset(
+              "assets/icons/device/sensor.png",
+              width: 33.w,
+            ),
           ),
         ),
         DeviceCategory.addDdevice: Align(
