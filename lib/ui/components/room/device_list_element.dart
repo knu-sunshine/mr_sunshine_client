@@ -13,28 +13,34 @@ Widget deviceListElement(
     required bool selected}) {
   return GestureDetector(
     onTap: () {
-      if (device.deviceCategory == DeviceCategory.addDdevice) {
-        Get.dialog(
-          TextInputModal(
-            title: "Add Device",
-            subscription: "Enter the name of the device",
-            fields: const ["device Id", "device name"],
-            onSubmit: (List<String> values) => {
-              Get.find<RoomController>()
-                  .addDevice(deviceId: values[0], deviceName: values[1])
-                  .then((value) {
-                if (value) {
-                  Get.back();
-                }
-              })
-            },
-          ),
-        );
-      } else {
-        Get.find<RoomController>().toggleDeviceOnOff(device.deviceID);
-        if (setDeviceID != null) {
-          setDeviceID(device.deviceID);
-        }
+      switch (device.deviceCategory) {
+        case DeviceCategory.addDdevice:
+          Get.dialog(
+            TextInputModal(
+              title: "Add Device",
+              subscription: "Enter the name of the device",
+              fields: const ["device Id", "device name"],
+              onSubmit: (List<String> values) => {
+                Get.find<RoomController>()
+                    .addDevice(deviceId: values[0], deviceName: values[1])
+                    .then((value) {
+                  if (value) {
+                    Get.back();
+                  }
+                })
+              },
+            ),
+          );
+
+          break;
+        case DeviceCategory.sensor:
+          break;
+        default:
+          Get.find<RoomController>().toggleDeviceOnOff(device.deviceID);
+          if (setDeviceID != null) {
+            setDeviceID(device.deviceID);
+          }
+          break;
       }
     },
     child: Container(
