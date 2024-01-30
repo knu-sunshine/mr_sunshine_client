@@ -51,18 +51,7 @@ class RoomController extends GetxController {
 
   ////devices
 
-  RxList<Device> deviceList = <Device>[
-    Device(
-      roomId: "1",
-      deviceID: "d1",
-      name: "light",
-      deviceCategory: DeviceCategory.light,
-      isOn: true,
-      deviceValue: 100,
-      isWakeUpOn: false,
-      wakeUpValue: 0,
-    ),
-  ].obs;
+  RxList<Device> deviceList = <Device>[].obs;
 
   Device? getDevice(String deviceID) {
     return deviceList

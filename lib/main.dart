@@ -44,12 +44,16 @@ class MyApp extends StatelessWidget {
               GetPage(
                   name: '/home',
                   page: () => const HomePage(),
+                  transition: Transition.rightToLeft,
+                  transitionDuration: const Duration(milliseconds: 300),
                   binding: BindingsBuilder(() {
                     Get.put(HomeController());
                   })),
               GetPage(
                   name: '/room',
                   page: () => const RoomPage(),
+                  transition: Transition.rightToLeft,
+                  transitionDuration: const Duration(milliseconds: 300),
                   binding: BindingsBuilder(() {
                     Get.put(RoomController());
                   })),

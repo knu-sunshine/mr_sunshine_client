@@ -203,7 +203,10 @@ class _WakeUpValueModalState extends State<WakeUpValueModal> {
                           text: "Confirm",
                           onClick: () {
                             Get.find<RoomController>()
-                                .setWakeUpValue(widget.deviceId, value);
+                                .setWakeUpValue(widget.deviceId, value)
+                                .then((value) => {
+                                      if (value) {Get.back()}
+                                    });
                           }),
                     ],
                   )
