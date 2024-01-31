@@ -6,7 +6,7 @@ import 'package:mr_sunshine_client/ui/components/public/buttons.dart';
 import 'package:mr_sunshine_client/ui/components/public/texts.dart';
 
 Widget autoToggle() {
-  return Container(
+  return SizedBox(
     width: 334.w,
     height: 27.h,
     child: Row(

@@ -26,7 +26,7 @@ Widget roomListElement(Room room) {
         RoomCategory.livingRoom: onOffToggle(
             status: room.status,
             onClick: () {
-              Get.find<HomeController>().toggleRoomLightByRoomId(room.roomId);
+              Get.find<HomeController>().toggleRoomLight(room.roomId);
             }),
       }[room.category] ??
       SizedBox(
@@ -43,16 +43,10 @@ Widget roomListElement(Room room) {
         suffix: onOffButton,
         onPressed: () {
           if (room.category == RoomCategory.addRoom) {
-            Get.dialog(
-                TextInputModal(
-                  title: "Add Room",
-                  subscription: "Enter the name of the room",
-                  fields: [room.roomName],
-                ),
+            Get.dialog(const AddRoomModal(),
                 barrierColor: AppColor.black.withOpacity(0.3));
-            // Get.find<HomePageController>().addRoom();
           } else {
-            Get.find<HomeController>().goToRoom(room);
+            Get.toNamed("/room", arguments: room.roomId);
           }
         }),
   );

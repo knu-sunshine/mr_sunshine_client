@@ -19,7 +19,7 @@ publish_to: "none" # Remove this line if you wish to publish to pub.dev
 version: 1.0.0+1
 
 environment:
-  sdk: ">=3.4.0-11.0.dev <4.0.0"
+  sdk: ">=3.2.6-11.0.dev <4.0.0"
 
 # Dependencies specify other packages that your package needs in order to work.
 # To automatically upgrade your package dependencies to the latest versions
@@ -42,6 +42,10 @@ dependencies:
   http: ^1.2.0
   geekyants_flutter_gauges: ^1.0.3
   flutter_secure_storage: ^9.0.0
+  flutter_dotenv: ^5.1.0
+  intl: ^0.19.0
+  flutter_web_auth: ^0.5.0
+  qr_code_scanner: ^1.0.1
 
 dev_dependencies:
   flutter_test:
@@ -70,6 +74,8 @@ flutter:
     - assets/icons/public/
     - assets/icons/room/
     - assets/icons/device/
+    - assets/icons/logo/
+    - .env
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

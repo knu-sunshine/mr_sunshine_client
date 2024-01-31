@@ -139,9 +139,9 @@ Widget elementDescription(String text,
   return Text(
     text,
     style: TextStyle(
-      fontSize: 10.sp,
-      fontWeight: fontWeight,
-      color: AppColor.black,
-    ),
+        fontSize: 10.sp,
+        fontWeight: fontWeight,
+        color: AppColor.black,
+        overflow: TextOverflow.ellipsis),
   );
 }

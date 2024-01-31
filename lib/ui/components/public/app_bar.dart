@@ -6,7 +6,7 @@ import 'package:mr_sunshine_client/constants/colors.dart';
 import 'package:mr_sunshine_client/ui/components/public/buttons.dart';
 import 'package:mr_sunshine_client/ui/components/public/texts.dart';
 
-Widget appBar({required String title, Widget? suffixWidget}) {
+Widget appBar({required String title, Widget? prefixWidget}) {
   return Container(
     width: 393.w,
     height: 87.h,
@@ -16,8 +16,11 @@ Widget appBar({required String title, Widget? suffixWidget}) {
       right: 28.w,
     ),
     child: Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
+        prefixWidget != null
+            ? Container(
+                margin: EdgeInsets.only(right: 15.w), child: prefixWidget!)
+            : Container(),
         Text(
           title,
           style: TextStyle(
@@ -26,7 +29,6 @@ Widget appBar({required String title, Widget? suffixWidget}) {
             color: AppColor.black,
           ),
         ),
-        suffixWidget ?? Container(),
       ],
     ),
   );

@@ -1,17 +1,20 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+
 import 'package:mr_sunshine_client/bloc/home_view_model.dart';
 import 'package:mr_sunshine_client/bloc/room_view_model.dart';
-
 import 'package:mr_sunshine_client/bloc/user_view_model.dart';
 import 'package:mr_sunshine_client/firebase_options.dart';
 import 'package:mr_sunshine_client/ui/auth_page.dart';
+import 'package:mr_sunshine_client/ui/components/public/qrcode_widget.dart';
 import 'package:mr_sunshine_client/ui/home_page.dart';
 import 'package:mr_sunshine_client/ui/room_page.dart';
 
 void main() async {
+  await dotenv.load(fileName: ".env");
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
@@ -33,7 +36,7 @@ class MyApp extends StatelessWidget {
               fontFamily: "Noto-Sans",
             ),
             debugShowCheckedModeBanner: false,
-            initialRoute: "/room",
+            initialRoute: "/auth",
             initialBinding: BindingsBuilder(() {
               Get.put(UserController());
             }),
@@ -42,15 +45,24 @@ class MyApp extends StatelessWidget {
               GetPage(
                   name: '/home',
                   page: () => const HomePage(),
+                  transition: Transition.rightToLeft,
+                  transitionDuration: const Duration(milliseconds: 300),
                   binding: BindingsBuilder(() {
                     Get.put(HomeController());
                   })),
               GetPage(
                   name: '/room',
                   page: () => const RoomPage(),
+                  transition: Transition.rightToLeft,
+                  transitionDuration: const Duration(milliseconds: 300),
                   binding: BindingsBuilder(() {
                     Get.put(RoomController());
                   })),
+              GetPage(
+                name: "/qr",
+                page: () => const QRCodeWidget(),
+                // arguments: {"setValue": (value) => print(value)},
+              )
             ],
           );
         });

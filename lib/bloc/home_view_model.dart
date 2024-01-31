@@ -1,44 +1,39 @@
 import 'package:get/get.dart';
 
 import 'package:mr_sunshine_client/models/room.dart';
-import 'package:mr_sunshine_client/ui/components/public/buttons.dart';
+import 'package:mr_sunshine_client/models/sun_time.dart';
+import 'package:mr_sunshine_client/repository/room_repository.dart';
+import 'package:mr_sunshine_client/repository/sun_time_repository.dart';
 
 class HomeController extends GetxController {
-  RxList<Room> rooms = <Room>[
-    Room(
-        roomId: "1",
-        roomName: "Living room",
-        status: RoomOnOffStatus.auto,
-        category: RoomCategory.livingRoom),
-    Room(
-        roomId: "2",
-        roomName: "Bedroom",
-        status: RoomOnOffStatus.auto,
-        category: RoomCategory.livingRoom),
-    Room(
-        roomId: "3",
-        roomName: "Kitchen",
-        status: RoomOnOffStatus.auto,
-        category: RoomCategory.livingRoom),
-  ].obs;
+  RxList<Room> rooms = <Room>[].obs;
 
-  Future<bool> toggleRoomLightByRoomId(String roomId) async {
-    Room? selectedRoom =
-        rooms.firstWhereOrNull((element) => element.roomId == roomId);
-
-    if (selectedRoom == null) {
+  Future<bool> toggleRoomLight(String roomId) async {
+    Room? room = rooms.firstWhereOrNull((element) => element.roomId == roomId);
+    if (room == null) {
       return false;
     }
 
-    switch (selectedRoom.status) {
+    bool res = false;
+    switch (room.status) {
       case RoomOnOffStatus.auto:
-        selectedRoom.status = RoomOnOffStatus.on;
+      case RoomOnOffStatus.off:
+        res = await RoomRepository.turnOnRoom(roomId: roomId).then((value) {
+          if (value) {
+            room.status = RoomOnOffStatus.on;
+            rooms.refresh();
+          }
+          return value;
+        });
         break;
       case RoomOnOffStatus.on:
-        selectedRoom.status = RoomOnOffStatus.off;
-        break;
-      case RoomOnOffStatus.off:
-        selectedRoom.status = RoomOnOffStatus.on;
+        res = await RoomRepository.turnOffRoom(roomId: roomId).then((value) {
+          if (value) {
+            room.status = RoomOnOffStatus.off;
+            rooms.refresh();
+          }
+          return value;
+        });
         break;
       default:
         break;
@@ -46,22 +41,48 @@ class HomeController extends GetxController {
 
     rooms.refresh();
 
+    return res;
+  }
+
+  Future<bool> getRoomList() async {
+    final List<Room>? roomList = await RoomRepository.getRoomList();
+    if (roomList == null) {
+      return false;
+    }
+    rooms.value = roomList;
+    rooms.refresh();
     return true;
   }
 
-  Future<bool> addRoom() async {
-    print("add Room");
+  Future<bool> addRoom(String roomName) async {
+    final Room? room = await RoomRepository.addRoom(roomName: roomName);
+    if (room == null) {
+      return false;
+    }
+    rooms.add(room);
 
     rooms.refresh();
-
     return true;
   }
 
-  Future<bool> goToRoom(Room room) async {
-    print(room.roomId);
+  Room getRoom(String roomId) {
+    return rooms.firstWhere((element) => element.roomId == roomId);
+  }
 
-    rooms.refresh();
+  //// sun time
+  Rx<SunTime> sunTime = SunTime(
+          sunrise: DateTime.now().copyWith(hour: 6),
+          sunset: DateTime.now().copyWith(hour: 18))
+      .obs;
 
-    return true;
+  Future<bool> initSunTime() async {
+    bool res = await SunTimeRepository.getSunTime().then((val) {
+      if (val != null) {
+        sunTime(val);
+        return true;
+      }
+      return false;
+    });
+    return res;
   }
 }

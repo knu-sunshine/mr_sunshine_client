@@ -13,19 +13,21 @@ Widget deviceListElement(
     required bool selected}) {
   return GestureDetector(
     onTap: () {
-      if (device.deviceCategory == DeviceCategory.addDdevice) {
-        Get.dialog(
-          const TextInputModal(
-            title: "Add Device",
-            subscription: "Enter the name of the device",
-            fields: ["device Id", "device name"],
-          ),
-        );
-      } else {
-        Get.find<RoomController>().toggleDeviceOnOff(device.deviceID);
-        if (setDeviceID != null) {
-          setDeviceID(device.deviceID);
-        }
+      switch (device.deviceCategory) {
+        case DeviceCategory.addDdevice:
+          Get.dialog(
+            const AddDeviceModal(),
+          );
+
+          break;
+        case DeviceCategory.sensor:
+          break;
+        default:
+          Get.find<RoomController>().toggleDeviceOnOff(device.deviceID);
+          if (setDeviceID != null) {
+            setDeviceID(device.deviceID);
+          }
+          break;
       }
     },
     child: Container(
