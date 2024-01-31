@@ -9,6 +9,7 @@ import 'package:mr_sunshine_client/bloc/room_view_model.dart';
 import 'package:mr_sunshine_client/bloc/user_view_model.dart';
 import 'package:mr_sunshine_client/firebase_options.dart';
 import 'package:mr_sunshine_client/ui/auth_page.dart';
+import 'package:mr_sunshine_client/ui/components/public/qrcode_widget.dart';
 import 'package:mr_sunshine_client/ui/home_page.dart';
 import 'package:mr_sunshine_client/ui/room_page.dart';
 
@@ -57,6 +58,11 @@ class MyApp extends StatelessWidget {
                   binding: BindingsBuilder(() {
                     Get.put(RoomController());
                   })),
+              GetPage(
+                name: "/qr",
+                page: () => const QRCodeWidget(),
+                // arguments: {"setValue": (value) => print(value)},
+              )
             ],
           );
         });
