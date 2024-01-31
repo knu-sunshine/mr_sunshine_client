@@ -16,20 +16,7 @@ Widget deviceListElement(
       switch (device.deviceCategory) {
         case DeviceCategory.addDdevice:
           Get.dialog(
-            TextInputModal(
-              title: "Add Device",
-              subscription: "Enter the name of the device",
-              fields: const ["device Id", "device name"],
-              onSubmit: (List<String> values) => {
-                Get.find<RoomController>()
-                    .addDevice(deviceId: values[0], deviceName: values[1])
-                    .then((value) {
-                  if (value) {
-                    Get.back();
-                  }
-                })
-              },
-            ),
+            const AddDeviceModal(),
           );
 
           break;

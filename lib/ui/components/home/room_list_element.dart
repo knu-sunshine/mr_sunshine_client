@@ -43,17 +43,7 @@ Widget roomListElement(Room room) {
         suffix: onOffButton,
         onPressed: () {
           if (room.category == RoomCategory.addRoom) {
-            Get.dialog(
-                TextInputModal(
-                  title: "Add Room",
-                  subscription: "Enter the name of the room",
-                  fields: [room.roomName],
-                  onSubmit: (List<String> values) {
-                    Get.find<HomeController>()
-                        .addRoom(values[0])
-                        .then((value) => Get.back());
-                  },
-                ),
+            Get.dialog(const AddRoomModal(),
                 barrierColor: AppColor.black.withOpacity(0.3));
           } else {
             Get.toNamed("/room", arguments: room.roomId);

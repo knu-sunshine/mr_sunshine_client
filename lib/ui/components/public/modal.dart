@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:mr_sunshine_client/bloc/home_view_model.dart';
 import 'package:mr_sunshine_client/bloc/room_view_model.dart';
 import 'package:mr_sunshine_client/constants/colors.dart';
 import 'package:mr_sunshine_client/models/device.dart';
@@ -13,37 +14,111 @@ import 'package:mr_sunshine_client/ui/components/public/inputs.dart';
 import 'package:mr_sunshine_client/ui/components/public/texts.dart';
 import 'package:mr_sunshine_client/ui/components/room/device_value_control_panel.dart';
 
-class TextInputModal extends StatefulWidget {
-  final String title;
-  final String subscription;
-  final List<String> fields;
-  final Function(List<String>) onSubmit;
-
-  const TextInputModal({
+class AddRoomModal extends StatefulWidget {
+  const AddRoomModal({
     super.key,
-    required this.title,
-    required this.subscription,
-    required this.fields,
-    required this.onSubmit,
   });
 
   @override
-  State<TextInputModal> createState() => _TextInputModalState();
+  State<AddRoomModal> createState() => _AddRoomModalState();
 }
 
-class _TextInputModalState extends State<TextInputModal> {
-  List<String> values = [];
-  @override
-  void initState() {
-    for (var i = 0; i < widget.fields.length; i++) {
-      values.add("");
-    }
-    super.initState();
+class _AddRoomModalState extends State<AddRoomModal> {
+  String? roomName;
+
+  void setRoomName(String val) {
+    setState(() {
+      roomName = val;
+    });
   }
 
-  void setRoomName(String val, int idx) {
+  void onSubmit() {
+    if (roomName == null) return;
+    Get.find<HomeController>().addRoom(roomName!).then((value) => Get.back());
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return BackdropFilter(
+      filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+      child: Dialog(
+        backgroundColor: Colors.transparent,
+        insetPadding: EdgeInsets.symmetric(horizontal: 0.w, vertical: 0.h),
+        child: Container(
+          width: 310.w,
+          height: 266.h,
+          color: AppColor.background,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              SizedBox(
+                width: 265.w,
+                height: 41.h,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    modalTitle("Add Room"),
+                    cancelButton(),
+                  ],
+                ),
+              ),
+              Container(
+                width: 265.w,
+                height: 20.h,
+                alignment: Alignment.centerLeft,
+                child: modalDescription("Enter the name of the room"),
+              ),
+              SizedBox(
+                height: 29.h,
+              ),
+              modalInputBox("room name", setRoomName),
+              SizedBox(
+                height: 39.h,
+              ),
+              textButton(text: "Confirm", onClick: onSubmit),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class AddDeviceModal extends StatefulWidget {
+  const AddDeviceModal({
+    super.key,
+  });
+
+  @override
+  State<AddDeviceModal> createState() => _AddDeviceModalState();
+}
+
+class _AddDeviceModalState extends State<AddDeviceModal> {
+  String? deviceId;
+  String? deviceName;
+
+  void setDeviceID(String val) {
     setState(() {
-      values[idx] = val;
+      deviceId = val;
+    });
+  }
+
+  void setDeviceName(String val) {
+    setState(() {
+      deviceName = val;
+    });
+  }
+
+  void onSubmit() {
+    if (deviceId == null) return;
+    if (deviceName == null) return;
+    Get.find<RoomController>()
+        .addDevice(deviceId: deviceId!, deviceName: deviceName!)
+        .then((value) {
+      if (value) {
+        Get.back();
+      }
     });
   }
 
@@ -56,51 +131,47 @@ class _TextInputModalState extends State<TextInputModal> {
         insetPadding: EdgeInsets.symmetric(horizontal: 0.w, vertical: 0.h),
         child: Container(
           width: 310.w,
-          height: 190.h + 76.h * widget.fields.length,
+          height: 342.h,
           color: AppColor.background,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-                  SizedBox(
-                    width: 265.w,
-                    height: 41.h,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        modalTitle(widget.title),
-                        cancelButton(),
-                      ],
-                    ),
-                  ),
-                  Container(
-                    width: 265.w,
-                    height: 20.h,
-                    alignment: Alignment.centerLeft,
-                    child: modalDescription(widget.subscription),
-                  ),
-                  SizedBox(
-                    height: 29.h,
-                  ),
-                ] +
-                widget.fields.fold<List<Widget>>([], (prev, e) {
-                  return [
-                    ...prev,
-                    modalInputBox(e, (val) {
-                      setRoomName(val, widget.fields.indexOf(e));
-                    }),
-                    SizedBox(
-                      height: 39.h,
-                    ),
-                  ];
-                }) +
-                [
-                  textButton(
-                      text: "Confirm",
-                      onClick: () {
-                        widget.onSubmit(values);
-                      }),
-                ],
+              SizedBox(
+                width: 265.w,
+                height: 41.h,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    modalTitle("Add Device"),
+                    cancelButton(),
+                  ],
+                ),
+              ),
+              Container(
+                width: 265.w,
+                height: 20.h,
+                alignment: Alignment.centerLeft,
+                child: modalDescription("Enter the name of the device"),
+              ),
+              SizedBox(
+                height: 29.h,
+              ),
+              textButton(
+                text: deviceId ?? "Scan QR",
+                onClick: () => {
+                  Get.toNamed("/qr", arguments: {"setValue": setDeviceID})
+                },
+              ),
+              SizedBox(
+                height: 39.h,
+              ),
+              modalInputBox("device name", setDeviceName),
+              SizedBox(
+                height: 39.h,
+              ),
+              textButton(text: "Confirm", onClick: onSubmit),
+            ],
           ),
         ),
       ),
