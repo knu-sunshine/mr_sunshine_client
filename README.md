@@ -27,7 +27,6 @@
     <li><a href="#specifications">Specifications</a></li>
     <li><a href="#getting-started">Getting Started</a></li>
     <li><a href="#usage-screenshot">Usage Screenshot</a></li>
-    <li><a href="#contact">Contact</a></li>
   </ol>
 </details>
 
